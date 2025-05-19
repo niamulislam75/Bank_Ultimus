@@ -1,7 +1,7 @@
 const { readExcelData } = require('../support/readExcel.js'); // Node-style import
-import LoginPage from '../support/LoginPage.js'; // ES Module import
-import GoToCIFPage from '../support/CIFPage.js'
-import CIFInfo from '../support/CIFInfo.js'
+import LoginPage from '../support/BUltimus/LoginPage.js'; // ES Module import
+import GoToCIFPage from '../support/BUltimus/CIFPage.js'
+import CIFInfo from '../support/BUltimus/CIFInfo.js'
 
 describe('Login Test Using Excel Data', () => {
   

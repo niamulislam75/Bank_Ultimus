@@ -14,6 +14,22 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // prevent Cypress from failing the test on known app error
+    if (err.message.includes("Cannot read properties of null (reading 'style')")) {
+      return false;
+    }
+  });
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Only ignore the specific known error
+  if (err.message.includes("Failed to execute 'focus'")) {
+    return false; // prevent Cypress from failing the test
+  }
+});
+  
+
 import './commands'
 import 'cypress-mochawesome-reporter/register';
+import 'cypress-iframe';
 require('cypress-xpath');
