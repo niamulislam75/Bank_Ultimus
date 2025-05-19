@@ -1,0 +1,14 @@
+# Node.js
+node_modules/
+
+# Cypress
+.cypress/
+cypress/videos/
+cypress/screenshots/
+
+# Logs
+npm-debug.log*
+
+# macOS / Windows system files
+.DS_Store
+Thumbs.db
