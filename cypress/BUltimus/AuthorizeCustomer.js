@@ -3,7 +3,7 @@ class AuthorizeCustomer {
   AuthorizeCust() {
 
     const authCustInfo = Cypress.env('excelData');
-    const customerID = Cypress.env('customerID');
+    //const customerID = Cypress.env('customerID');
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlAuthFunction')
       .select('1501 - Customers Profile [Individual]');
@@ -24,7 +24,7 @@ class AuthorizeCustomer {
         cy.wait(3000);
 
         if (matchingRows.length === 0) {
-          throw new Error(`❌ No matching rows found for customerID: ${customerID}`);
+          throw new Error('❌ No matching rows found for customerID: ${customerID}');
         }
 
         cy.wrap(matchingRows[0]).within(() => {
