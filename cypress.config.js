@@ -6,6 +6,10 @@ module.exports = defineConfig({
 
   reporter: "cypress-mochawesome-reporter", // Specify the reporter 
 
+  reporterOptions: {
+    configFile: "multi-reporters.json"  // <-- points to the multi reporter config file
+  },
+  
   e2e: { 
 
     setupNodeEvents(on, config) { 

@@ -1,34 +1,122 @@
-pipeline {
-  agent any
+// pipeline {
+//   agent any
 
-  tools {
-    nodejs 'NodeJS 16' // Match the name from Jenkins NodeJS config
-  }
+//   tools {
+//     nodejs 'Node Js' // Name must match what you configured in Jenkins → Global Tool Configuration
+//   }
 
-  stages {
-    stage('Checkout') {
-      steps {
-        git 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git'
-      }
-    }
+//   environment {
+//     CI = 'true' // Important for Cypress CI compatibility
+//   }
 
-    stage('Install Dependencies') {
-      steps {
-        sh 'npm install'
-      }
-    }
+//   stages {
 
-    stage('Run Cypress Tests') {
-      steps {
-        sh 'npx cypress run'
-      }
-    }
-  }
+//     stage('Checkout Code') {
+//       steps {
+//         git url: 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git', branch: 'master'
+//       }
+//     }
 
-  post {
-    always {
-      archiveArtifacts artifacts: 'cypress/videos/**/*.mp4', allowEmptyArchive: true
-      junit 'cypress/results/*.xml'
-    }
-  }
-}
+//     stage('Install Dependencies') {
+//       steps {
+//         sh 'npm ci'
+//       }
+//     }
+
+//     stage('Run Cypress Tests') {
+//       steps {
+//         sh 'npx cypress run'
+//       }
+//     }
+
+//   }
+
+//   post {
+//     always {
+//       archiveArtifacts artifacts: '**/cypress/videos/**/*.*', allowEmptyArchive: true
+//       junit 'cypress/results/**/*.xml' // If you use Mocha JUnit reporter
+//     }
+
+//     failure {
+//       echo 'Cypress tests failed.'
+//     }
+//   }
+// }
+
+pipeline { 
+
+  agent any 
+
+ 
+
+  tools { 
+
+    nodejs 'Node Js' // Use the name from your NodeJS tool config 
+
+  } 
+
+ 
+
+  environment { 
+
+    CYPRESS_CACHE_FOLDER = "${WORKSPACE}/.cache/Cypress" 
+
+  } 
+
+ 
+
+  stages { 
+
+    stage('Checkout') { 
+
+      steps { 
+
+        git url: 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git' 
+
+      } 
+
+    } 
+
+ 
+
+    stage('Install Dependencies') { 
+
+      steps { 
+
+        sh 'npm ci' 
+
+      } 
+
+    } 
+
+ 
+
+    stage('Run Cypress Tests') { 
+
+      steps { 
+
+        sh './node_modules/.bin/cypress run' 
+
+      } 
+
+    } 
+
+  } 
+
+ 
+
+  post { 
+
+    always { 
+
+      junit 'cypress/results/*.xml' // If using JUnit reporter 
+
+      archiveArtifacts artifacts: '**/cypress/screenshots/**/*.*', allowEmptyArchive: true 
+
+      archiveArtifacts artifacts: '**/cypress/videos/**/*.*', allowEmptyArchive: true 
+
+    } 
+
+  } 
+
+} 
