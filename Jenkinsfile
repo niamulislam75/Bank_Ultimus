@@ -40,8 +40,19 @@ pipeline {
   post {
     always {
       junit 'cypress/results/*.xml'
-      archiveArtifacts artifacts: '**/cypress/screenshots/**/*.*', allowEmptyArchive: true
+
       archiveArtifacts artifacts: '**/cypress/videos/**/*.*', allowEmptyArchive: true
+      archiveArtifacts artifacts: '**/cypress/screenshots/**/*.*', allowEmptyArchive: true
+      archiveArtifacts artifacts: '**/cypress/reports/**/*.*', allowEmptyArchive: true
+
+    publishHTML(target: [
+      reportDir: 'cypress/reports',
+      reportFiles: 'index.html',
+      reportName: 'Cypress Test Report',
+      keepAll: true,
+      alwaysLinkToLastBuild: true,
+      allowMissing: true
+    ])
     }
   }
 }
