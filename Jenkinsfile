@@ -1,126 +1,47 @@
-// pipeline {
-//   agent any
+pipeline {
+  agent any
 
-//   tools {
-//     nodejs 'Node Js' // Name must match what you configured in Jenkins → Global Tool Configuration
-//   }
+  tools {
+    nodejs 'Node Js' // Must match NodeJS tool name in Jenkins config
+  }
 
-//   environment {
-//     CI = 'true' // Important for Cypress CI compatibility
-//   }
+  environment {
+    CYPRESS_CACHE_FOLDER = "${WORKSPACE}/.cache/Cypress"
+  }
 
-//   stages {
+  stages {
+    stage('Checkout') {
+      steps {
+        git branch: 'main',
+            url: 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git'
+      }
+    }
 
-//     stage('Checkout Code') {
-//       steps {
-//         git url: 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git', branch: 'master'
-//       }
-//     }
-
-//     stage('Install Dependencies') {
-//       steps {
-//         sh 'npm ci'
-//       }
-//     }
-
-//     stage('Run Cypress Tests') {
-//       steps {
-//         sh 'npx cypress run'
-//       }
-//     }
-
-//   }
-
-//   post {
-//     always {
-//       archiveArtifacts artifacts: '**/cypress/videos/**/*.*', allowEmptyArchive: true
-//       junit 'cypress/results/**/*.xml' // If you use Mocha JUnit reporter
-//     }
-
-//     failure {
-//       echo 'Cypress tests failed.'
-//     }
-//   }
-// }
-
-pipeline { 
-
-  agent any 
-
- 
-
-  tools { 
-
-    nodejs 'Node Js' // Use the name from your NodeJS tool config 
-
-  } 
-
- 
-
-  environment { 
-
-    CYPRESS_CACHE_FOLDER = "${WORKSPACE}/.cache/Cypress" 
-
-  } 
-
- 
-
-  stages { 
-
-    stage('Checkout') { 
-
-      steps { 
-
-        git url: 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git' 
-
-      } 
-
-    } 
-
- 
-
-    stage('Install Dependencies') { 
-
-      steps { 
-
-        dir("${env.WORKSPACE}") {
+    stage('Debug Files') {
+      steps {
         bat 'dir'
         bat 'type package-lock.json'
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
         bat 'npm ci'
-       }
+      }
+    }
 
-      } 
+    stage('Run Cypress Tests') {
+      steps {
+        bat '.\\node_modules\\.bin\\cypress run'
+      }
+    }
+  }
 
-    } 
-
- 
-
-    stage('Run Cypress Tests') { 
-
-      steps { 
-
-        bat './node_modules/.bin/cypress run' 
-
-      } 
-
-    } 
-
-  } 
-
- 
-
-  post { 
-
-    always { 
-
-      junit 'cypress/results/*.xml' // If using JUnit reporter 
-
-      archiveArtifacts artifacts: '**/cypress/screenshots/**/*.*', allowEmptyArchive: true 
-
-      archiveArtifacts artifacts: '**/cypress/videos/**/*.*', allowEmptyArchive: true 
-
-    } 
-
-  } 
-
-} 
+  post {
+    always {
+      junit 'cypress/results/*.xml'
+      archiveArtifacts artifacts: '**/cypress/screenshots/**/*.*', allowEmptyArchive: true
+      archiveArtifacts artifacts: '**/cypress/videos/**/*.*', allowEmptyArchive: true
+    }
+  }
+}
