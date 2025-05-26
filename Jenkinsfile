@@ -83,7 +83,11 @@ pipeline {
 
       steps { 
 
-        bat 'npm ci' 
+        dir("${env.WORKSPACE}") {
+        bat 'dir'
+        bat 'type package-lock.json'
+        bat 'npm ci'
+       }
 
       } 
 
