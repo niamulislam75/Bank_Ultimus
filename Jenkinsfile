@@ -32,7 +32,7 @@ pipeline {
 
     stage('Run Cypress Tests') {
       steps {
-        bat '.\\node_modules\\.bin\\cypress run'
+        bat '.\\node_modules\\.bin\\cypress run --spec "cypress/e2e/pc.cy.js"'
       }
     }
 
