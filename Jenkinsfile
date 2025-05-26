@@ -35,6 +35,12 @@ pipeline {
         bat '.\\node_modules\\.bin\\cypress run'
       }
     }
+
+    stage('Generate Video Report') {
+      steps {
+         bat 'npm run generate-video-report'
+       }
+    }
   }
 
   post {
@@ -47,8 +53,8 @@ pipeline {
 
     publishHTML(target: [
       reportDir: 'cypress/reports',
-      reportFiles: 'index.html',
-      reportName: 'Cypress Test Report',
+      reportFiles: 'video-report.html',
+      reportName: 'Cypress Videos',
       keepAll: true,
       alwaysLinkToLastBuild: true,
       allowMissing: true
