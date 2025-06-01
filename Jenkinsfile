@@ -86,25 +86,28 @@ pipeline {
 
     stage('Install Dependencies') {
       steps {
-        bat 'npm install'
+        dir('BankUltimus_Automation') {
+           bat 'npm install'
         // You can switch to `npm ci` later if you commit package-lock.json
       }
     }
 
     stage('Run Cypress Tests') {
       steps {
-        bat 'npx cypress run --spec "cypress/e2e/pc.cy.js"'
+        dir('BankUltimus_Automation') {
+           bat 'npx cypress run --spec "cypress/e2e/pc.cy.js"'
+    }
       }
     }
 
     stage('Start Video Server & Ngrok') {
       steps {
-        script {
-          bat "start /B npx http-server cypress/videos -p %VIDEO_SERVER_PORT%"
-          sleep time: 5, unit: 'SECONDS'
-          bat "start /B ngrok http %VIDEO_SERVER_PORT%"
-          sleep time: 10, unit: 'SECONDS'
-        }
+        dir('BankUltimus_Automation') {
+            bat "start /B npx http-server cypress/videos -p %VIDEO_SERVER_PORT%"
+            sleep time: 5, unit: 'SECONDS'
+            bat "start /B ngrok http %VIDEO_SERVER_PORT%"
+            sleep time: 10, unit: 'SECONDS'
+    }
       }
     }
 
