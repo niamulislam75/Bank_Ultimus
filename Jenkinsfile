@@ -102,12 +102,12 @@ pipeline {
 
     stage('Start Video Server & Ngrok') {
       steps {
-        dir('BankUltimus_Automation') {
-            bat "start /B npx http-server cypress/videos -p %VIDEO_SERVER_PORT%"
-            sleep time: 5, unit: 'SECONDS'
-            bat "start /B ngrok http %VIDEO_SERVER_PORT%"
-            sleep time: 10, unit: 'SECONDS'
-    }
+        script {
+          bat "start /B npx http-server cypress/videos -p %VIDEO_SERVER_PORT%"
+          sleep time: 5, unit: 'SECONDS'
+          bat "start /B ngrok http %VIDEO_SERVER_PORT%"
+          sleep time: 10, unit: 'SECONDS'
+        }
       }
     }
 
