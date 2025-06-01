@@ -100,10 +100,12 @@ pipeline {
 
     stage('Serve Video & Start Ngrok') {
       steps {
-        bat 'npx http-server cypress/videos -p %VIDEO_SERVER_PORT% &'
-        bat 'timeout /t 5'
-        bat 'ngrok http %VIDEO_SERVER_PORT% &'
-        bat 'timeout /t 10'
+        bat """
+          set VIDEO_SERVER_PORT=8081
+          start /B npx http-server cypress/videos -p %VIDEO_SERVER_PORT%
+          timeout /T 5 /NOBREAK
+          start /B ngrok http %VIDEO_SERVER_PORT%
+        """
       }
     }
 
