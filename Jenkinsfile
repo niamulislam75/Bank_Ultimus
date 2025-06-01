@@ -67,7 +67,7 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'Node Js'  // Adjust this to the exact name of your NodeJS tool config in Jenkins
+    nodejs 'Node 22.14.0'  // Adjust this to the exact name of your NodeJS tool config in Jenkins
   }
 
   environment {
