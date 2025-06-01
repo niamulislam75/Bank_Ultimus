@@ -86,9 +86,8 @@ pipeline {
 
     stage('Install Dependencies') {
       steps {
-
         bat 'npm install'
-        bat 'npm ci'
+        // You can switch to `npm ci` later if you commit package-lock.json
       }
     }
 
@@ -98,12 +97,14 @@ pipeline {
       }
     }
 
-    stage('Start Servers (http-server + ngrok)') {
+    stage('Start Video Server & Ngrok') {
       steps {
-        bat 'start /B npx http-server cypress/videos -p %VIDEO_SERVER_PORT%'
-        sleep time: 5, unit: 'SECONDS'
-        bat 'start /B ngrok http %VIDEO_SERVER_PORT%'
-        sleep time: 10, unit: 'SECONDS'
+        script {
+          bat "start /B npx http-server cypress/videos -p %VIDEO_SERVER_PORT%"
+          sleep time: 5, unit: 'SECONDS'
+          bat "start /B ngrok http %VIDEO_SERVER_PORT%"
+          sleep time: 10, unit: 'SECONDS'
+        }
       }
     }
 
@@ -128,17 +129,17 @@ pipeline {
     stage('Send Email') {
       steps {
         emailext (
-          subject: "Cypress Test Report - Build #${env.BUILD_NUMBER}",
+          subject: "✅ Cypress Test Report - Build #${env.BUILD_NUMBER}",
           body: """
           <p>Hello,</p>
 
-          <p>The Cypress test run <b>pc.cy.js</b> has completed.</p>
+          <p>The Cypress test <b>pc.cy.js</b> has completed.</p>
 
           <ul>
             <li><b>Status:</b> ${currentBuild.currentResult}</li>
             <li><b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}</li>
             <li><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
-            <li><b>Public Test Video:</b> <a href="${env.PUBLIC_VIDEO_URL}">${env.PUBLIC_VIDEO_URL}</a></li>
+            <li><b>Test Video:</b> <a href="${env.PUBLIC_VIDEO_URL}">${env.PUBLIC_VIDEO_URL}</a></li>
           </ul>
 
           <p>Regards,<br>Md Shafique</p>
@@ -153,9 +154,10 @@ pipeline {
 
   post {
     always {
-      echo 'Stopping all background servers...'
+      echo '✅ Cleaning up background servers...'
       bat 'taskkill /F /IM node.exe || exit 0'
       bat 'taskkill /F /IM ngrok.exe || exit 0'
     }
   }
 }
+
