@@ -3,9 +3,7 @@ node_modules/
 
 # Cypress
 .cypress/
-cypress/videos/
 cypress/screenshots/
-cypress/reports/
 
 # Logs
 npm-debug.log*
