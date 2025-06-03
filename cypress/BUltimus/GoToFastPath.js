@@ -1,6 +1,6 @@
-class GoToCIFPage {
+class GoToFastPath {
     
-  CIFPage() {
+  FastPath() {
 
       const dataCIFPage = Cypress.env('excelData');
 
@@ -10,6 +10,6 @@ class GoToCIFPage {
     }
   }
   
-  export default GoToCIFPage;
+  export default GoToFastPath;
   
     

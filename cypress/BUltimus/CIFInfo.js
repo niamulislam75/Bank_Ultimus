@@ -14,7 +14,7 @@ class CIFInfo {
     //Basic Info Starts
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlNationality').select(dataCIFInfo.Nationality);    //select Option from dropdown
 
-    //cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNationalID').type(dataCIFInfo.NationalID);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNationalID').type(dataCIFInfo.NationalID);
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtApointmentDate').clear();
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtApointmentDate').type(dataCIFInfo.DOB).type('{enter}');
@@ -23,7 +23,7 @@ class CIFInfo {
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtSmartCardNo').clear();
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtSmartCardNo').type(dataCIFInfo.SmartCardNo).type('{enter}');
-    cy.get('.ui-button-text').click();
+    //cy.get('.ui-button-text').click();
 
     // cy.get('#ctl00_contPlcHdrMasterHolder_LstxtPassport').clear();
     // cy.get('#ctl00_contPlcHdrMasterHolder_LstxtPassport').type(dataCIFInfo.PassportNo).type('{enter}');

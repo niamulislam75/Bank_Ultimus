@@ -27,6 +27,13 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return false; // prevent Cypress from failing the test
   }
 });
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (err.message.includes('Failed to execute \'replaceState\'')) {
+    // returning false here prevents Cypress from failing the test
+    return false;
+  }
+});
   
 
 import './commands'

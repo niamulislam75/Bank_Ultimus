@@ -1,19 +1,17 @@
 const { readExcelData } = require('../support/readExcel.js'); // Node-style import
 import LoginPage from '../BUltimus/LogIn.js'; // ES Module import
-import GoToCIFPage from '../BUltimus/CIFPage.js'
+import GoToFastPath from '../BUltimus/GoToFastPath.js'
 import CIFInfo from '../BUltimus/CIFInfo.js'
 import DoLogOut from '../BUltimus/LogOut.js';
-import GoToAuthPage from '../BUltimus/GoToAuthPage.js';
 import AuthorizeCustomer from '../BUltimus/AuthorizeCustomer.js';
 import CustomerInquiry from '../BUltimus/CustomerInquiry.js';
 
 describe('Login Test Using Excel Data', () => {
   
   const loginPage = new LoginPage();
-  const cifPage = new GoToCIFPage();
+  const fastPath = new GoToFastPath();
   const cifInfo = new CIFInfo();
   const logOut = new DoLogOut();
-  const authPage = new GoToAuthPage();
   const authCustomer = new AuthorizeCustomer();
   const customerInq = new CustomerInquiry();
 
@@ -35,9 +33,9 @@ describe('Login Test Using Excel Data', () => {
     cy.task('readExcel', {
       fileName: 'loginData.xlsx',
       sheetName: 'Sheet2'
-    }).then((dataCIFPage) => {
-      Cypress.env('excelData', dataCIFPage[0]); // Use first row
-      cifPage.CIFPage();
+    }).then((dataFastPath) => {
+      Cypress.env('excelData', dataFastPath[0]); // Use first row
+      fastPath.FastPath();
     });
 
     // Fill in Customer Individual Page -BASIC INFO (FP: 1501)
@@ -66,9 +64,9 @@ describe('Login Test Using Excel Data', () => {
     cy.task('readExcel', {
       fileName: 'loginData.xlsx',
       sheetName: 'Sheet2'
-    }).then((dataAuthPage) => {
-      Cypress.env('excelData', dataAuthPage[1]); // Use seocnd row
-      authPage.AuthPage();
+    }).then((dataFastPath) => {
+      Cypress.env('excelData', dataFastPath[1]); // Use first row
+      fastPath.FastPath();
     });
 
     authCustomer.AuthorizeCust();

@@ -63,6 +63,109 @@
 //   }
 // }
 
+// pipeline {
+//   agent any
+
+//   tools {
+//     nodejs 'Node 22.14.0'
+//   }
+
+//   environment {
+//     ONEDRIVE_LINK = 'https://leadscorp-my.sharepoint.com/:f:/g/personal/md_shafique_leads-bd_com/EvuwkCZJwdlCnLj87-SiuXYBODs4rsGbuTX-0N6G5XrYKA?e=IjAA4a'
+//     ONEDRIVE_BASE = 'C:\Users\bu.shafique\OneDrive - LEADS Corporation Limited\CypressReports'
+//     BUILD_FOLDER = "Build_${BUILD_NUMBER}"
+//     REPORT_FOLDER = "${ONEDRIVE_BASE}\\${BUILD_FOLDER}"
+//   }
+
+//   stages {
+//     stage('Checkout') {
+//       steps {
+//         git branch: 'main', url: 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git'
+//       }
+//     }
+
+//     stage('Install Dependencies') {
+//       steps {
+//         bat 'npm install'
+//         bat 'npx cypress install'
+//       }
+//     }
+
+//     stage('Run Cypress Test') {
+//       steps {
+//         bat 'npx cypress run --spec "cypress/e2e/pc.cy.js" --reporter cypress-mochawesome-reporter'
+//       }
+//     }
+
+//     stage('Copy Reports to OneDrive') {
+//       steps {
+//         bat """
+//           echo Creating OneDrive build folder: %REPORT_FOLDER%
+//           mkdir "%REPORT_FOLDER%\\reports"
+//           mkdir "%REPORT_FOLDER%\\videos"
+
+//           xcopy /Y /E /I cypress\\reports\\* "%REPORT_FOLDER%\\reports\\"
+//           xcopy /Y /E /I cypress\\videos\\* "%REPORT_FOLDER%\\videos\\"
+//         """
+//       }
+//     }
+
+//     stage('Parse Test Summary') {
+//       steps {
+//         script {
+//           def files = findFiles(glob: 'cypress/reports/*.json')
+//           def jsonPath = files.length > 0 ? files[0].path : null
+//           if (jsonPath) {
+//             def result = readJSON file: jsonPath
+//             def stats = result?.stats
+//             env.TEST_PASSED = stats?.passes ?: '0'
+//             env.TEST_FAILED = stats?.failures ?: '0'
+//             env.TEST_PENDING = stats?.pending ?: '0'
+//           } else {
+//             env.TEST_PASSED = 'N/A'
+//             env.TEST_FAILED = 'N/A'
+//             env.TEST_PENDING = 'N/A'
+//           }
+//         }
+//       }
+//     }
+
+//     stage('Send Email') {
+//       steps {
+//         emailext (
+//           subject: "✅ Cypress Report - Build #${env.BUILD_NUMBER}",
+//           body: """
+//             <p>Hello,</p>
+//             <p>The Cypress test <b>pc.cy.js</b> has completed.</p>
+//             <ul>
+//               <li><b>Status:</b> ${currentBuild.currentResult}</li>
+//               <li><b>Passed:</b> ${env.TEST_PASSED}</li>
+//               <li><b>Failed:</b> ${env.TEST_FAILED}</li>
+//               <li><b>Pending:</b> ${env.TEST_PENDING}</li>
+//               <li><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
+//               <li><b>OneDrive Folder:</b> <a href="${env.ONEDRIVE_LINK}">Open OneDrive</a></li>
+//               <li><b>Report Folder:</b> <code>${env.BUILD_FOLDER}</code></li>
+//             </ul>
+//             <p><i>HTML report is attached for quick access.</i></p>
+//             <p>Regards,<br>Md Shafique</p>
+//           """,
+//           to: 'mdshafique1198@gmail.com',
+//           from: 'mdshafique511@gmail.com',
+//           mimeType: 'text/html',
+//           attachmentsPattern: 'cypress/reports/*.html'
+//         )
+//       }
+//     }
+//   }
+
+//   post {
+//     always {
+//       echo 'Cleaning up...'
+//     }
+//   }
+// }
+
+
 pipeline {
   agent any
 
@@ -71,14 +174,16 @@ pipeline {
   }
 
   environment {
-    VIDEO_SERVER_PORT = '8081'
-    VIDEO_FILENAME = 'pc.cy.js.mp4'
-    LOCAL_VIDEO_URL = "http://localhost:${VIDEO_SERVER_PORT}/${VIDEO_FILENAME}"
-    NGROK_API = 'http://127.0.0.1:4040/api/tunnels'
+    RCLONE_PATH = 'C:\\rclone\\rclone.exe'  
+    REMOTE_FOLDER = 'gdrive:/CypressReports/'  
+    BUILD_FOLDER = "Build_${BUILD_NUMBER}"
+    VIDEO_DIR = "c:\\Users\\bu.shafique\\Documents\\BankUltimus_Automation\\BankUltimus_Automation\\cypress\\videos"
+    REPORT_DIR = "c:\\Users\\bu.shafique\\Documents\\BankUltimus_Automation\\BankUltimus_Automation\\cypress\\reports"
+    EMAIL_TO = 'avisheak.mitra@leads-bd.com'
+    EMAIL_FROM = 'mdshafique1198@gmail.com'
   }
 
   stages {
-
     stage('Checkout') {
       steps {
         git branch: 'main', url: 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git'
@@ -94,33 +199,47 @@ pipeline {
 
     stage('Run Cypress Test') {
       steps {
-        bat 'npx cypress run --spec "cypress/e2e/pc.cy.js"'
+        bat 'npx cypress run --spec "cypress/e2e/pc.cy.js" --reporter cypress-mochawesome-reporter'
       }
     }
 
-    stage('Serve Video & Start Ngrok') {
-      steps {
-        bat """
-              set "PORT=8081"
-              start /B npx http-server cypress/videos -p 8081
-              timeout /T 5 /NOBREAK
-              start /B ngrok http 8081
-            """
-      }
-    }
-
-    stage('Get Public Video URL') {
+    stage('Upload Videos & Reports to Google Drive') {
       steps {
         script {
-          def response = bat(
-            script: 'curl -s http://127.0.0.1:4040/api/tunnels',
-            returnStdout: true
-          ).trim()
-          def matcher = response =~ /"public_url":"(https:[^"]+)"/
-          if (matcher.find()) {
-            env.PUBLIC_VIDEO_URL = "${matcher[0][1]}/${env.VIDEO_FILENAME}"
+          // Upload all videos generated this run
+          bat "\"${env.RCLONE_PATH}\" copy \"${env.VIDEO_DIR}\" ${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/ --create-empty-src-dirs"
+          // Upload all reports
+          bat "\"${env.RCLONE_PATH}\" copy \"${env.REPORT_DIR}\" ${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/reports/ --create-empty-src-dirs"
+        }
+      }
+    }
+
+    stage('Get Shareable Links') {
+      steps {
+        script {
+          // Get the link to the build folder in Google Drive
+          def buildFolderLink = bat(script: "\"${env.RCLONE_PATH}\" link ${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/", returnStdout: true).trim()
+          echo "Build Folder Google Drive Link: ${buildFolderLink}"
+          env.BUILD_FOLDER_LINK = buildFolderLink
+        }
+      }
+    }
+
+    stage('Parse Test Summary') {
+      steps {
+        script {
+          def files = findFiles(glob: 'cypress/reports/*.json')
+          def jsonPath = files.length > 0 ? files[0].path : null
+          if (jsonPath) {
+            def result = readJSON file: jsonPath
+            def stats = result?.stats
+            env.TEST_PASSED = stats?.passes ?: '0'
+            env.TEST_FAILED = stats?.failures ?: '0'
+            env.TEST_PENDING = stats?.pending ?: '0'
           } else {
-            env.PUBLIC_VIDEO_URL = "Unavailable"
+            env.TEST_PASSED = 'N/A'
+            env.TEST_FAILED = 'N/A'
+            env.TEST_PENDING = 'N/A'
           }
         }
       }
@@ -129,20 +248,25 @@ pipeline {
     stage('Send Email') {
       steps {
         emailext (
-          subject: "Cypress Test Report - Build #${env.BUILD_NUMBER}",
+          subject: "✅ Cypress Report - Build #${env.BUILD_NUMBER}",
           body: """
-          <p>Hello,</p>
-          <p>The Cypress test <b>pc.cy.js</b> has completed.</p>
-          <ul>
-            <li><b>Status:</b> ${currentBuild.currentResult}</li>
-            <li><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
-            <li><b>Test Video:</b> <a href="${env.PUBLIC_VIDEO_URL}">${env.PUBLIC_VIDEO_URL}</a></li>
-          </ul>
-          <p>Regards,<br>Md Shafique</p>
+            <p>Hello,</p>
+            <p>The Cypress test <b>pc.cy.js</b> has completed.</p>
+            <ul>
+              <li><b>Status:</b> ${currentBuild.currentResult}</li>
+              <li><b>Passed:</b> ${env.TEST_PASSED}</li>
+              <li><b>Failed:</b> ${env.TEST_FAILED}</li>
+              <li><b>Pending:</b> ${env.TEST_PENDING}</li>
+              <li><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
+              <li><b>Google Drive Folder:</b> <a href="${env.BUILD_FOLDER_LINK}">Open CypressReports/Build_${env.BUILD_NUMBER}</a></li>
+            </ul>
+            <p><i>HTML report is attached for quick access.</i></p>
+            <p>Regards,<br>Md Shafique</p>
           """,
-          to: 'mdshafique1198@gmail.com',
-          from: 'mdshafique511@gmail.com',
-          mimeType: 'text/html'
+          to: "${env.EMAIL_TO}",
+          from: "${env.EMAIL_FROM}",
+          mimeType: 'text/html',
+          attachmentsPattern: 'cypress/reports/*.html'
         )
       }
     }
@@ -150,9 +274,7 @@ pipeline {
 
   post {
     always {
-      echo 'Cleaning up background processes...'
-      bat 'taskkill /F /IM node.exe || exit 0'
-      bat 'taskkill /F /IM ngrok.exe || exit 0'
+      echo 'Cleaning up...'
     }
   }
 }
