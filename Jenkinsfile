@@ -213,9 +213,10 @@ pipeline {
     stage('Get Shareable Links') {
       steps {
         script {
-          def buildFolderLink = bat(script: "\"${env.RCLONE_PATH}\" link ${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/", returnStdout: true).trim()
-          echo "Build Folder Google Drive Link: ${buildFolderLink}"
-          env.BUILD_FOLDER_LINK = buildFolderLink
+          def output = bat(script: "\"${env.RCLONE_PATH}\" link ${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/", returnStdout: true)
+          def match = output.readLines().find { it.startsWith("https://") }
+          echo "Build Folder Google Drive Link: ${match}"
+          env.BUILD_FOLDER_LINK = match ?: "Not Found"
         }
       }
     }
