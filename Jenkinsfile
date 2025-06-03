@@ -177,7 +177,7 @@ pipeline {
     RCLONE_PATH = 'C:\\rclone\\rclone.exe'  
     REMOTE_FOLDER = 'gdrive:/CypressReports/'  
     BUILD_FOLDER = "Build_${BUILD_NUMBER}"
-    VIDEO_DIR = "c:\\Users\\bu.shafique\\Documents\\BankUltimus_Automation\\BankUltimus_Automation\\cypress\\videos"
+    VIDEO_DIR = "${env.WORKSPACE}\\cypress\\videos"
     EMAIL_TO = 'avisheak.mitra@leads-bd.com'
     EMAIL_FROM = 'mdshafique1198@gmail.com'
   }
@@ -207,6 +207,8 @@ pipeline {
         script {
           def videoFile = "${env.VIDEO_DIR}\\pc.cy.js.mp4"
           def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/pc.cy.js.mp4"
+          // Optional: list files to verify existence before upload
+          bat "dir \"${env.VIDEO_DIR}\""
           bat "\"${env.RCLONE_PATH}\" copyto \"${videoFile}\" \"${remoteFile}\""
         }
       }
