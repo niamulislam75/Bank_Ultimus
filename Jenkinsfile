@@ -239,7 +239,7 @@ pipeline {
             </ul>
             <p>Regards,<br>Md Shafique</p>
           """,
-          to: "avisheak.mitra@leads-bd.com, anamika.mukherjee@leads-bd.com, aminur.rashid@leads-bd.com",
+          to: "avisheak.mitra@leads-bd.com, anamika.mukherjee@leads-bd.com",
           from: "${env.EMAIL_FROM}",
           mimeType: 'text/html'
         )
