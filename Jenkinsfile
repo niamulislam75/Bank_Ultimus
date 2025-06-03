@@ -206,7 +206,8 @@ pipeline {
       steps {
         script {
           def videoFile = "${env.VIDEO_DIR}\\e2e\\pc.cy.js.mp4"
-          bat "\"${env.RCLONE_PATH}\" copy \"${videoFile}\" ${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/"
+          def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/pc.cy.js.mp4"
+          bat "\"${env.RCLONE_PATH}\" copyto \"${videoFile}\" \"${remoteFile}\""
         }
       }
     }
