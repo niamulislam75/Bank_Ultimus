@@ -205,7 +205,7 @@ pipeline {
     stage('Upload Videos to Google Drive') {
       steps {
         script {
-          def videoFile = "${env.VIDEO_DIR}\\e2e\\pc.cy.js.mp4"
+          def videoFile = "${env.VIDEO_DIR}\\pc.cy.js.mp4"
           def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/pc.cy.js.mp4"
           bat "\"${env.RCLONE_PATH}\" copyto \"${videoFile}\" \"${remoteFile}\""
         }
