@@ -178,7 +178,6 @@ pipeline {
     REMOTE_FOLDER = 'gdrive:/CypressReports/'  
     BUILD_FOLDER = "Build_${BUILD_NUMBER}"
     VIDEO_DIR = "c:\\Users\\bu.shafique\\Documents\\BankUltimus_Automation\\BankUltimus_Automation\\cypress\\videos"
-    REPORT_DIR = "c:\\Users\\bu.shafique\\Documents\\BankUltimus_Automation\\BankUltimus_Automation\\cypress\\reports"
     EMAIL_TO = 'avisheak.mitra@leads-bd.com'
     EMAIL_FROM = 'mdshafique1198@gmail.com'
   }
@@ -199,17 +198,14 @@ pipeline {
 
     stage('Run Cypress Test') {
       steps {
-        bat 'npx cypress run --spec "cypress/e2e/pc.cy.js" --reporter cypress-mochawesome-reporter'
+        bat 'npx cypress run --spec "cypress/e2e/pc.cy.js"'
       }
     }
 
-    stage('Upload Videos & Reports to Google Drive') {
+    stage('Upload Videos to Google Drive') {
       steps {
         script {
-          // Upload all videos generated this run
           bat "\"${env.RCLONE_PATH}\" copy \"${env.VIDEO_DIR}\" ${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/ --create-empty-src-dirs"
-          // Upload all reports
-          bat "\"${env.RCLONE_PATH}\" copy \"${env.REPORT_DIR}\" ${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/reports/ --create-empty-src-dirs"
         }
       }
     }
@@ -217,30 +213,9 @@ pipeline {
     stage('Get Shareable Links') {
       steps {
         script {
-          // Get the link to the build folder in Google Drive
           def buildFolderLink = bat(script: "\"${env.RCLONE_PATH}\" link ${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/", returnStdout: true).trim()
           echo "Build Folder Google Drive Link: ${buildFolderLink}"
           env.BUILD_FOLDER_LINK = buildFolderLink
-        }
-      }
-    }
-
-    stage('Parse Test Summary') {
-      steps {
-        script {
-          def files = findFiles(glob: 'cypress/reports/*.json')
-          def jsonPath = files.length > 0 ? files[0].path : null
-          if (jsonPath) {
-            def result = readJSON file: jsonPath
-            def stats = result?.stats
-            env.TEST_PASSED = stats?.passes ?: '0'
-            env.TEST_FAILED = stats?.failures ?: '0'
-            env.TEST_PENDING = stats?.pending ?: '0'
-          } else {
-            env.TEST_PASSED = 'N/A'
-            env.TEST_FAILED = 'N/A'
-            env.TEST_PENDING = 'N/A'
-          }
         }
       }
     }
@@ -254,19 +229,14 @@ pipeline {
             <p>The Cypress test <b>pc.cy.js</b> has completed.</p>
             <ul>
               <li><b>Status:</b> ${currentBuild.currentResult}</li>
-              <li><b>Passed:</b> ${env.TEST_PASSED}</li>
-              <li><b>Failed:</b> ${env.TEST_FAILED}</li>
-              <li><b>Pending:</b> ${env.TEST_PENDING}</li>
               <li><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
               <li><b>Google Drive Folder:</b> <a href="${env.BUILD_FOLDER_LINK}">Open CypressReports/Build_${env.BUILD_NUMBER}</a></li>
             </ul>
-            <p><i>HTML report is attached for quick access.</i></p>
             <p>Regards,<br>Md Shafique</p>
           """,
           to: "${env.EMAIL_TO}",
           from: "${env.EMAIL_FROM}",
-          mimeType: 'text/html',
-          attachmentsPattern: 'cypress/reports/*.html'
+          mimeType: 'text/html'
         )
       }
     }
