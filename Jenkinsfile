@@ -234,12 +234,12 @@ pipeline {
             <p>The Cypress test <b>pc.cy.js</b> has completed.</p>
             <ul>
               <li><b>Status:</b> ${currentBuild.currentResult}</li>
-              <li><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
+              
               <li><b>Google Drive Folder:</b> <a href="${env.BUILD_FOLDER_LINK}">Open CypressReports/Build_${env.BUILD_NUMBER}</a></li>
             </ul>
             <p>Regards,<br>Md Shafique</p>
           """,
-          to: "avisheak.mitra@leads-bd.com, anamika.mukherjee@leads-bd.com",
+          to: "avisheak.mitra@leads-bd.com, anamika.mukherjee@leads-bd.com, aminur.rashid@leads-bd.com",
           from: "${env.EMAIL_FROM}",
           mimeType: 'text/html'
         )
@@ -253,3 +253,6 @@ pipeline {
     }
   }
 }
+
+
+//<li><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
