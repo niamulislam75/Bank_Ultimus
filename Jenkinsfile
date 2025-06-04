@@ -179,7 +179,7 @@ pipeline {
     BUILD_FOLDER = "Build_${BUILD_NUMBER}"
     VIDEO_DIR = "${env.WORKSPACE}\\cypress\\videos"
     EMAIL_TO = 'avisheak.mitra@leads-bd.com'
-    EMAIL_FROM = 'mdshafique1198@gmail.com'
+    EMAIL_FROM = 'missiononemtwo@gmail.com'
   }
 
   stages {
