@@ -170,12 +170,12 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'Node 22.14.0'
+    nodejs 'Node 22.12.0'
   }
 
   environment {
-    RCLONE_PATH = 'C:\\rclone\\rclone.exe'  
-    REMOTE_FOLDER = 'gdrive:/CypressReports/'  
+    RCLONE_PATH = 'C:\\rclone\\rclone\\rclone.exe'  
+    REMOTE_FOLDER = 'gdrive:/BUltimus/'  
     BUILD_FOLDER = "Build_${BUILD_NUMBER}"
     VIDEO_DIR = "${env.WORKSPACE}\\cypress\\videos"
     EMAIL_TO = 'avisheak.mitra@leads-bd.com'
