@@ -185,7 +185,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git'
+        git branch: 'main', url: 'https://github.com/avisheak/BankUltimus_Automation.git'
       }
     }
 
