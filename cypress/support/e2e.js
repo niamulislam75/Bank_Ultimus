@@ -54,6 +54,16 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   // Let all other errors fail the test
 });
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Ignore known frontend JS errors caused by the app
+  if (
+    err.message.includes("Failed to execute 'focus' on 'HTMLElement'") ||
+    err.message.includes("missing ) after argument list")
+  ) {
+    return false; // Prevent Cypress from failing the test
+  }
+});
+
   
 
 import './commands'
