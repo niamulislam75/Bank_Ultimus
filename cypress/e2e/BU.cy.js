@@ -14,7 +14,7 @@ describe('Login Test Using Excel Data', () => {
   const logOut = new DoLogOut();
   const authCustomer = new AuthorizeCustomer();
   const customerInq = new CustomerInquiry();
-
+//
   
 
   it('should Create a Customer (Individual)', () => {
