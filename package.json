@@ -12,12 +12,12 @@
   "description": "",
   "dependencies": {
     "cypress-mochawesome-reporter": "^3.8.2",
+    "http-server": "^14.1.1",
     "mochawesome-report-generator": "^6.2.0",
-    "save-dev": "^0.0.1-security",
-    "http-server": "^14.1.1"
+    "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
-    "cypress": "^14.4.0",
+    "cypress": "^14.4.1",
     "cypress-iframe": "^1.0.1",
     "cypress-xpath": "^2.0.1",
     "fs-extra": "^11.3.0",

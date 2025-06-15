@@ -5,7 +5,8 @@ import DoLogOut from '../BUltimus/LogOut.js';
 
 
 describe('authorize p.customer', () => {
-
+ 
+  //name is 
 
   it('Authorize p. customer', () => {
 

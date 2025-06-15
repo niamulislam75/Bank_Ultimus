@@ -170,22 +170,22 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'Node 22.14.0'
+    nodejs 'Node 22.12.0'
   }
 
   environment {
-    RCLONE_PATH = 'C:\\rclone\\rclone.exe'  
-    REMOTE_FOLDER = 'gdrive:/CypressReports/'  
+    RCLONE_PATH = 'C:\\rclone\\rclone\\rclone.exe'  
+    REMOTE_FOLDER = 'gdrive:/BUltimus/'  
     BUILD_FOLDER = "Build_${BUILD_NUMBER}"
     VIDEO_DIR = "${env.WORKSPACE}\\cypress\\videos"
     EMAIL_TO = 'avisheak.mitra@leads-bd.com'
-    EMAIL_FROM = 'mdshafique1198@gmail.com'
+    EMAIL_FROM = 'missiononemtwo@gmail.com'
   }
 
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/MdShafique-Leads/BankUltimus_Automation.git'
+        git branch: 'main', url: 'https://github.com/avisheak/BankUltimus_Automation.git'
       }
     }
 
@@ -254,5 +254,5 @@ pipeline {
   }
 }
 
-
+//
 //<li><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
