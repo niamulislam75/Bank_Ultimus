@@ -149,7 +149,6 @@ class CIFInfo {
         .find('div.FindUIDiv div.gridBorder div:nth-child(2) table:nth-child(1) tbody:nth-child(1) tr:nth-child(2) > td:nth-child(2)')
         .scrollIntoView()
         .dblclick({ force: true });
-      ///html/body/form/div[3]/table[2]/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/td[2]
 
     });
 
