@@ -10,6 +10,7 @@ class CustomerInquiry {
     cy.get(2000);
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCustomerId').type(customerID).type('{enter}');
+    cy.wait(3000);
     
 
 
