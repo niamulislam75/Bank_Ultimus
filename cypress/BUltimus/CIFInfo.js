@@ -186,7 +186,7 @@ class CIFInfo {
     cy.wait(2000);
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlCustomerAddressVerified').select('Yes');
     cy.wait(2000);
-    cy.get('ctl00_contPlcHdrMasterHolder_LstxtHowVarified').type('Test Data');
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtHowVarified').type('Test Data');
 
     cy.get('#ctl00_contPlcHdrMasterHolder_btnOk').click();
 
