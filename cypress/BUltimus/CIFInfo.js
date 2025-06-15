@@ -113,7 +113,9 @@ class CIFInfo {
     //cy.get('.ui-button').click();
     cy.get('#ctl00_contPlcHdrMasterHolder_TabCIFFamily').click();   //Go to Family Page
 
+    cy.wait(3000);
     //Family Page Starts 
+
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtPname').type(dataCIFInfo.FName);
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMName').type(dataCIFInfo.MName);
     // Family page ends
