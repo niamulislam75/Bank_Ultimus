@@ -115,8 +115,11 @@ class CIFInfo {
 
     cy.wait(3000);
     //Family Page Starts 
-
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtPname').focus();
+    cy.wait(2000);
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtPname').type(dataCIFInfo.FName);
+
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMName').focus();
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMName').type(dataCIFInfo.MName);
     // Family page ends
 
