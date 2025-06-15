@@ -198,7 +198,7 @@ pipeline {
 
     stage('Run Cypress Test') {
       steps {
-        bat 'npx cypress run --spec "cypress/e2e/pc.cy.js"'
+        bat 'npx cypress run --spec "cypress/e2e/BU.cy.js"'
       }
     }
 
