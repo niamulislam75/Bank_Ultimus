@@ -179,7 +179,7 @@ class CIFInfo {
     cy.wait('@formReload1');
     cy.wait('@formReload2');       //intercept Post Request call
     //cy.wait(5000);
-
+//
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk2').should('not.be.disabled');
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk2').select('No', '{force: true}');
