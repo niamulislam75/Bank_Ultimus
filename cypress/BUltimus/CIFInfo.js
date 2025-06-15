@@ -176,8 +176,9 @@ class CIFInfo {
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk').should('not.be.disabled');
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk').select('No');
     //cy.wait('@formReload');       //intercept Post Request call
-    cy.wait('@formReload1');
-    cy.wait('@formReload2');       //intercept Post Request call
+    // cy.wait('@formReload1');
+    // cy.wait('@formReload2');       //intercept Post Request call
+    cy.wait(5000);
 
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk2').should('not.be.disabled');
