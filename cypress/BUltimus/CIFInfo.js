@@ -37,6 +37,8 @@ class CIFInfo {
     //   cy.get('#ctl00_contPlcHdrMasterHolder_LsddlIssueCountry').select(dataCIFInfo.PassPortIssCountry);
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlPlaceOfBirthOfCustomer').select(dataCIFInfo.PlaceOfBirth);
+    
+   
     //Basic Info Ends
 
     cy.get('#ctl00_contPlcHdrMasterHolder_TabCIFPersonalInfo').click();  //Go to Personal Details Tab
@@ -46,6 +48,19 @@ class CIFInfo {
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlGender').select(dataCIFInfo.Gender);
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlOccupation').select(dataCIFInfo.Occupation);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMonthlyIncome').focus();
+    cy.wait(3000);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMonthlyIncome').type('70000');
+    //cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMonthlyIncome').type(dataCIFInfo.MonthlyIncome).type('{enter}');
+
+    // cy.intercept('POST', '**/MenuEnable').as('menuEnable');
+    // cy.intercept('POST', '**/CreateMenu').as('createMenu');
+    
+    // cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMonthlyIncome').type(dataCIFInfo.MonthlyIncome);
+
+    // cy.wait('@menuEnable');
+    // cy.wait('@createMenu');
+    cy.get('#ctl00_contPlcHdrMasterHolder_LsddlResidenceloc').select(dataCIFInfo.ResidenceLoc);
 
     //Personal Details Tab Ends
 
@@ -66,21 +81,29 @@ class CIFInfo {
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusPhone').type(dataCIFInfo.LandPhone);
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusMobile').type(dataCIFInfo.Mobile);
 
-    cy.intercept('POST', '/BankUltimus/BU_Core/corCusProfileIndividualUI.aspx?FUNCTION_ID=0101001&FAST_PATH=1501').as('formReload');
-    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusTown').type(dataCIFInfo.CityTownArea);//.blur();
-    //cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusTown').blur();
-    cy.wait('@formReload');       //intercept Post Request call
+    // cy.intercept('POST', '/BankUltimus/BU_Core/corCusProfileIndividualUI.aspx?FUNCTION_ID=0101001&FAST_PATH=1501').as('formReload');
+    // cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusTown').type(dataCIFInfo.CityTownArea);//.blur();
+    // //cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusTown').blur();
+    // cy.wait('@formReload');       //intercept Post Request call
 
     // Now safe to proceed
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusTown').focus();
+    cy.wait(2000);
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusTown').type(dataCIFInfo.CityTownArea);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusTown').blur();
 
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusPostCode').focus();
+    cy.wait(2000);
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCusPostCode').type(dataCIFInfo.ZIP_PostalCode).type('{enter}');
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlCusCountry').select(dataCIFInfo.Country);
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlCusState').select(dataCIFInfo.Division_State);
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlCusDistrict').select(dataCIFInfo.District);
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlCusThana').select(dataCIFInfo.PS);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LsddlCusPostOffice').select(dataCIFInfo.PO);
 
-    cy.get('#ctl00_contPlcHdrMasterHolder_LsChkAddressCopy').check();   //checkbox check of Resident Address is same as Permanent Address
+
+    cy.get('#ctl00_contPlcHdrMasterHolder_LsChkAddressCopy').check();
+    cy.wait(2000);   //checkbox check of Resident Address is same as Permanent Address
     cy.get('#ctl00_contPlcHdrMasterHolder_btnAddressAdd').click();    //Add Address
     cy.wait(3000);
 
@@ -90,8 +113,13 @@ class CIFInfo {
     //cy.get('.ui-button').click();
     cy.get('#ctl00_contPlcHdrMasterHolder_TabCIFFamily').click();   //Go to Family Page
 
+    cy.wait(3000);
     //Family Page Starts 
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtPname').focus();
+    cy.wait(2000);
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtPname').type(dataCIFInfo.FName);
+
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMName').focus();
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMName').type(dataCIFInfo.MName);
     // Family page ends
 
@@ -121,42 +149,49 @@ class CIFInfo {
         .find('div.FindUIDiv div.gridBorder div:nth-child(2) table:nth-child(1) tbody:nth-child(1) tr:nth-child(2) > td:nth-child(2)')
         .scrollIntoView()
         .dblclick({ force: true });
-      ///html/body/form/div[3]/table[2]/tbody/tr/td/div/div/div[2]/table/tbody/tr[2]/td[2]
 
     });
 
-    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNatureofBusinessandSourceofFound').type('test');
-    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtSourceOfFundDescription_indi').type('test');
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNatureofBusinessandSourceofFound').type('test of CIF Individual Cypress');
+    
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtSourceOfFundDescription_indi').focus();
+    cy.wait(2000);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtSourceOfFundDescription_indi').type('test of CIF Individual Cypress');
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlKYCProfession').select(dataCIFInfo.KYC_Prof);
 
-    cy.intercept('POST', '/BankUltimus/BU_Core/corCusProfileIndividualUI.aspx?FUNCTION_ID=0101001&FAST_PATH=1501').as('formReload');
-    cy.intercept('POST', '/BankUltimus/BU_Service/ServiceHelper.asmx/MenuEnable').as('formReload1');
-    cy.intercept('POST', '/BankUltimus/BU_Service/ServiceHelper.asmx/CreateMenu').as('formReload2');
-    cy.wait('@formReload');       //intercept Post Request call
-    cy.wait('@formReload1');
-    cy.wait('@formReload2');
+    //cy.intercept('POST', '/BankUltimus/BU_Core/corCusProfileIndividualUI.aspx?FUNCTION_ID=0101001&FAST_PATH=1501').as('formReload');
+    cy.intercept('POST', '/BankUltimus/src/BankUltimus.UI/BU_Service/ServiceHelper.asmx/MenuEnable').as('formReload1');
+    cy.intercept('POST', '/BankUltimus/src/BankUltimus.UI/BU_Service/ServiceHelper.asmx/CreateMenu').as('formReload2');
+    //cy.wait('@formReload');       //intercept Post Request call
+    //cy.wait('@formReload1');
+    //cy.wait('@formReload2');
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlKYCOpenNature').should('not.be.disabled');
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlKYCOpenNature').select(dataCIFInfo.KYC_Open_Nature, '{force: true}');
 
-    cy.wait('@formReload');       //intercept Post Request call
+    //cy.wait('@formReload');       //intercept Post Request call
 
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk').should('not.be.disabled');
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk').select('No');
-    cy.wait('@formReload');       //intercept Post Request call
+    //cy.wait('@formReload');       //intercept Post Request call
     cy.wait('@formReload1');
     cy.wait('@formReload2');       //intercept Post Request call
-
+    //cy.wait(5000);
+//
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk2').should('not.be.disabled');
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk2').select('No', '{force: true}');
-    //cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk2').select('No','{force: true}');
+    cy.get('#ctl00_contPlcHdrMasterHolder_LsddlCustomerAddressVerified').focus();
+    cy.wait(2000);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LsddlCustomerAddressVerified').select('Yes');
+    cy.wait(2000);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtHowVarified').type('Test Data');
 
     cy.get('#ctl00_contPlcHdrMasterHolder_btnOk').click();
 
 
-    cy.wait(4000);
+    cy.wait(8000);
 
     cy.get('#dialog')
       .invoke('text')
