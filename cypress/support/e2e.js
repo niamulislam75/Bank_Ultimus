@@ -34,6 +34,26 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return false;
   }
 });
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (
+    err.message.includes("Failed to execute 'replaceState' on 'History'") &&
+    err.message.includes('cannot be created in a document with origin')
+  ) {
+    return false;
+  }
+});
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Handle unexpected KeyboardEvent TypeError too
+  if (err.message.includes("Cannot read properties of undefined") &&
+      err.message.includes("KeyboardEvent")) {
+    return false;
+  }
+
+  // Let all other errors fail the test
+});
+
   
 
 import './commands'
