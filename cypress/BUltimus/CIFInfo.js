@@ -164,7 +164,7 @@ class CIFInfo {
     cy.intercept('POST', '/BankUltimus/src/BankUltimus.UI/BU_Service/ServiceHelper.asmx/MenuEnable').as('formReload1');
     cy.intercept('POST', '/BankUltimus/src/BankUltimus.UI/BU_Service/ServiceHelper.asmx/CreateMenu').as('formReload2');
     //cy.wait('@formReload');       //intercept Post Request call
-    cy.wait('@formReload1');
+    //cy.wait('@formReload1');
     //cy.wait('@formReload2');
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlKYCOpenNature').should('not.be.disabled');
