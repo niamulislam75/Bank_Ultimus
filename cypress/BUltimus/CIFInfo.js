@@ -189,7 +189,7 @@ class CIFInfo {
     cy.get('#ctl00_contPlcHdrMasterHolder_btnOk').click();
 
 
-    cy.wait(4000);
+    cy.wait(8000);
 
     cy.get('#dialog')
       .invoke('text')
