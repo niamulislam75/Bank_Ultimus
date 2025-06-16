@@ -1,6 +1,6 @@
 
 class CIFInfo {
-
+//const cifInfo = new CIFInfo();
   cifInfo() {
 
     const dataCIFInfo = Cypress.env('excelData');   //define object
