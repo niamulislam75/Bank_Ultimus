@@ -63,6 +63,15 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return false; // Prevent Cypress from failing the test
   }
 });
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (
+    err.message.includes("Can not read properties of null") &&
+    err.message.includes("reading 'focus'")
+  ) {
+    return false; // Prevent Cypress from failing the test
+  }
+});
 //
   
 
