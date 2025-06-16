@@ -7,15 +7,14 @@ import AuthorizeCustomer from '../BUltimus/AuthorizeCustomer.js';
 import CustomerInquiry from '../BUltimus/CustomerInquiry.js';
 
 describe('Login Test Using Excel Data', () => {
-  
+
   const loginPage = new LoginPage();
   const fastPath = new GoToFastPath();
   const cifInfo = new CIFInfo();
   const logOut = new DoLogOut();
   const authCustomer = new AuthorizeCustomer();
-  const customerInq = new CustomerInquiry();
 
-  
+  const customerInq = new CustomerInquiry();
 
   it('should Create a Customer (Individual)', () => {
 
@@ -27,13 +26,13 @@ describe('Login Test Using Excel Data', () => {
       Cypress.env('excelData', dataLogin[0]); // Use first row
       loginPage.Login();
     });
-    
 
 
 
 
 
-    
+
+
     // Go to Customer Individual Page (FP: 1501)
     cy.task('readExcel', {
       fileName: 'loginData.xlsx',
@@ -87,7 +86,7 @@ describe('Login Test Using Excel Data', () => {
     });
 
 
-    
+
 
   });
 
