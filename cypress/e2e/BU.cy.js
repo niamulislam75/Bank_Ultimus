@@ -13,7 +13,7 @@ describe('Login Test Using Excel Data', () => {
   const cifInfo = new CIFInfo();
   const logOut = new DoLogOut();
   const authCustomer = new AuthorizeCustomer();
-  const customerInq = new CustomerInquiry();clear
+  const customerInq = new CustomerInquiry();
 
   
 
@@ -28,9 +28,7 @@ describe('Login Test Using Excel Data', () => {
       loginPage.Login();
     });
     
-//Login with valid User ID
-   // cy.task('readExcel', {
-      
+
 
 
 
