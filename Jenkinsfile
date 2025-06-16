@@ -31,7 +31,10 @@ pipeline {
 
     stage('Run Cypress Test') {
       steps {
-        bat 'npx cypress run --spec "cypress/e2e/BU.cy.js"'
+        script {
+          catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+            bat 'npx cypress run --spec "cypress/e2e/BU.cy.js"'
+          }
       }
     }
 
