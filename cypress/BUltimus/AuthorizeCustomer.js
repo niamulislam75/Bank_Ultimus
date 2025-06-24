@@ -6,7 +6,7 @@ class AuthorizeCustomer {
     //const customerID = Cypress.env('customerID');
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlAuthFunction')
-      .select('1501 - Customers Profile [Individual]');
+      .select(authCustInfo.AuthorizationFunction);
 
     cy.get('#ctl00_contPlcHdrMasterHolder_btnAuthSearch').click();
 

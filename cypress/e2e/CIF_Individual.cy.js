@@ -1,7 +1,7 @@
 const { readExcelData } = require('../support/readExcel.js'); // Node-style import
 import LoginPage from '../BUltimus/LogIn.js'; // ES Module import
 import GoToFastPath from '../BUltimus/GoToFastPath.js'
-import CIFInfo from '../BUltimus/CIFInfo.js'
+import CIFInfo from '../BUltimus/CIF_Individual_Info.js'
 import DoLogOut from '../BUltimus/LogOut.js';
 import AuthorizeCustomer from '../BUltimus/AuthorizeCustomer.js';
 import CustomerInquiry from '../BUltimus/CustomerInquiry.js';
@@ -70,7 +70,14 @@ describe('Login Test Using Excel Data', () => {
       fastPath.FastPath();
     });
 
-    authCustomer.AuthorizeCust();
+    //Authorize Individual Customer
+    cy.task('readExcel', {
+      fileName: 'loginData.xlsx',
+      sheetName: 'NftAuth'
+    }).then((authorizeCustomer) => {
+      Cypress.env('excelData', authorizeCustomer[0]); // Use first row
+      authCustomer.AuthorizeCust();
+    });
 
     cy.wait(3000)
 

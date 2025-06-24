@@ -1,6 +1,6 @@
 import LoginPage from '../BUltimus/LogIn.js'; // ES Module import
 import GoToCIFPage from '../BUltimus/GoToFastPath.js'
-import CIFInfo from '../BUltimus/CIFInfo.js'
+import CIFInfo from '../BUltimus/CIF_Individual_Info.js'
 import DoLogOut from '../BUltimus/LogOut.js';
 
 
