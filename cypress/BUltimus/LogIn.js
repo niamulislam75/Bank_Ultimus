@@ -8,7 +8,6 @@ class LoginPage {
     cy.get('#PasswordString').type(dataLogin.password); // Enter password
     cy.get('#btnlogin').click(); // Click login button
 
-    //cy.get('.ui-button-text').click();
   }
 }
 
