@@ -22,7 +22,7 @@ describe('Login Test Using Excel Data', () => {
 
     //Login with valid User ID
     cy.task('readExcel', {
-      fileName: 'loginData.xlsx',
+      fileName: 'CIF_Data.xlsx',
       sheetName: 'Sheet1'
     }).then((dataLogin) => {
       Cypress.env('excelData', dataLogin[0]); // Use first row
@@ -32,7 +32,7 @@ describe('Login Test Using Excel Data', () => {
 
     // Go to Customer Individual Page (FP: 1501)
     cy.task('readExcel', {
-      fileName: 'loginData.xlsx',
+      fileName: 'CIF_Data.xlsx',
       sheetName: 'Sheet2'
     }).then((dataFastPath) => {
       Cypress.env('excelData', dataFastPath[0]); // Use first row
@@ -41,7 +41,7 @@ describe('Login Test Using Excel Data', () => {
 
     // Fill in Customer Individual Page -BASIC INFO (FP: 1501)
     cy.task('readExcel', {
-      fileName: 'loginData.xlsx',
+      fileName: 'CIF_Data.xlsx',
       sheetName: 'Sheet3'
     }).then((dataCIFInfo) => {
       Cypress.env('excelData', dataCIFInfo[0]); // Use first row
@@ -53,7 +53,7 @@ describe('Login Test Using Excel Data', () => {
 
     //Login with valid User ID to Authorize CIF
     cy.task('readExcel', {
-      fileName: 'loginData.xlsx',
+      fileName: 'CIF_Data.xlsx',
       sheetName: 'Sheet1'
     }).then((dataLogin) => {
       Cypress.env('excelData', dataLogin[1]); // Use second row
@@ -63,7 +63,7 @@ describe('Login Test Using Excel Data', () => {
 
     // Go to Non-Financial Authorization Page (FP: 8002)
     cy.task('readExcel', {
-      fileName: 'loginData.xlsx',
+      fileName: 'CIF_Data.xlsx',
       sheetName: 'Sheet2'
     }).then((dataFastPath) => {
       Cypress.env('excelData', dataFastPath[1]); // Use first row
@@ -72,7 +72,7 @@ describe('Login Test Using Excel Data', () => {
 
     //Authorize Individual Customer
     cy.task('readExcel', {
-      fileName: 'loginData.xlsx',
+      fileName: 'CIF_Data.xlsx',
       sheetName: 'NftAuth'
     }).then((authorizeCustomer) => {
       Cypress.env('excelData', authorizeCustomer[0]); // Use first row
@@ -82,7 +82,7 @@ describe('Login Test Using Excel Data', () => {
     cy.wait(3000)
 
     cy.task('readExcel', {
-      fileName: 'loginData.xlsx',
+      fileName: 'CIF_Data.xlsx',
       sheetName: 'Sheet2'
     }).then((custInq) => {
       Cypress.env('excelData', custInq[2]); // Use seocnd row
