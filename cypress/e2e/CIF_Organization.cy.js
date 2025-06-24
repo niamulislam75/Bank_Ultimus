@@ -18,17 +18,17 @@ describe('This suit is for CIF Organization', () => {
 
         //Login with valid User ID
         cy.task('readExcel', {
-            fileName: 'loginData.xlsx',
+            fileName: 'CIF_Data.xlsx',
             sheetName: 'Sheet1'
         }).then((dataLogin) => {
-            Cypress.env('excelData', dataLogin[3]); // Use first row
+            Cypress.env('excelData', dataLogin[0]); // Use first row
             loginPage.Login();
         });
 
 
         // Go to Customer Individual Page (FP: 1502)
         cy.task('readExcel', {
-            fileName: 'loginData.xlsx',
+            fileName: 'CIF_Data.xlsx',
             sheetName: 'Sheet2'
         }).then((dataFastPath) => {
             Cypress.env('excelData', dataFastPath[3]); // Use Fourth row
@@ -37,7 +37,7 @@ describe('This suit is for CIF Organization', () => {
 
         //Fill in Customer Profile Organization (FP: 1502)
         cy.task('readExcel', {
-            fileName: 'loginData.xlsx',
+            fileName: 'CIF_Data.xlsx',
             sheetName: 'CIF_Org(1503)'
         }).then((dataCIFOrgInfo) => {
             Cypress.env('excelData', dataCIFOrgInfo[0]); // Use first row
@@ -48,16 +48,16 @@ describe('This suit is for CIF Organization', () => {
 
         //Login with valid User ID to Authorize CIF [Organization]
         cy.task('readExcel', {
-            fileName: 'loginData.xlsx',
+            fileName: 'CIF_Data.xlsx',
             sheetName: 'Sheet1'
         }).then((dataLogin) => {
-            Cypress.env('excelData', dataLogin[4]); // Use second row
+            Cypress.env('excelData', dataLogin[1]); // Use second row
             loginPage.Login();
         });
 
         //Go to Authorization Page (FP: 8002)
         cy.task('readExcel', {
-            fileName: 'loginData.xlsx',
+            fileName: 'CIF_Data.xlsx',
             sheetName: 'Sheet2'
         }).then((dataFastPath) => {
             Cypress.env('excelData', dataFastPath[1]); // Use first row
@@ -66,7 +66,7 @@ describe('This suit is for CIF Organization', () => {
 
         //Authorize Organization Customer
         cy.task('readExcel', {
-            fileName: 'loginData.xlsx',
+            fileName: 'CIF_Data.xlsx',
             sheetName: 'NftAuth'
         }).then((authorizeCustomer) => {
             Cypress.env('excelData', authorizeCustomer[1]); // Use first row
@@ -77,7 +77,7 @@ describe('This suit is for CIF Organization', () => {
 
         //Customer Inquiry
         cy.task('readExcel', {
-            fileName: 'loginData.xlsx',
+            fileName: 'CIF_Data.xlsx',
             sheetName: 'Sheet2'
         }).then((custInq) => {
             Cypress.env('excelData', custInq[2]); // Use seocnd row
