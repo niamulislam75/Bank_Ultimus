@@ -44,12 +44,12 @@ pipeline {
       steps {
         script {
            def specFiles = ['CIF_Individual.cy.js.mp4', 'CIF_Organization.cy.js.mp4']
-            specFiles.each { specVideo ->
-              def videoFile = "${env.VIDEO_DIR}\\${specVideo}"
-              def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/${specVideo}"
-              bat "dir \"${env.VIDEO_DIR}\""
-              bat "\"${env.RCLONE_PATH}\" copyto \"${videoFile}\" \"${remoteFile}\""
-      }
+          specFiles.each { specVideo ->
+            def videoFile = "${env.VIDEO_DIR}\\${specVideo}"
+            def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/${specVideo}"
+            bat "dir \"${env.VIDEO_DIR}\""
+            bat "\"${env.RCLONE_PATH}\" copyto \"${videoFile}\" \"${remoteFile}\""
+            }
           // def videoFile = "${env.VIDEO_DIR}\\CIF_Organization.cy.js.mp4"
           // def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/CIF_Organization.cy.js.mp4"
           // // Optional: list files to verify existence before upload
