@@ -33,7 +33,8 @@ pipeline {
       steps {
         script {
           catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-            bat 'npx cypress run --spec "cypress/e2e/CIF_Individual.cy.js,cypress/e2e/CIF_Organization.cy.js"'
+            bat 'npx cypress run --spec "cypress/e2e/CIF_Individual.cy.js"'
+            bat 'npx cypress run --spec "cypress/e2e/CIF_Organization.cy.js"'
           }
         }
       }
