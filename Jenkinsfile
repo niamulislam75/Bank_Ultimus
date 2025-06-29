@@ -33,7 +33,7 @@ pipeline {
       steps {
         script {
           catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-            bat 'npx cypress run --spec "cypress/e2e/CIF_Individual.cy.js"'
+            bat 'npx cypress run --spec "cypress/e2e/CIF_Organization.cy.js"'
           }
         }
       }
@@ -42,8 +42,8 @@ pipeline {
     stage('Upload Videos to Google Drive') {
       steps {
         script {
-          def videoFile = "${env.VIDEO_DIR}\\BU.cy.js.mp4"
-          def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/BU.cy.js.mp4"
+          def videoFile = "${env.VIDEO_DIR}\\CIF_Organization.cy.js.mp4"
+          def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/CIF_Organization.cy.js.mp4"
           // Optional: list files to verify existence before upload
           bat "dir \"${env.VIDEO_DIR}\""
           bat "\"${env.RCLONE_PATH}\" copyto \"${videoFile}\" \"${remoteFile}\""
@@ -71,7 +71,7 @@ pipeline {
         subject: "✅ Cypress Report - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
         body: """
           <p>Hello,</p>
-          <p>The Cypress test <b>BU.cy.js</b> has completed.</p>
+          <p>The Cypress test <b>CIF_Organization.cy.js</b> has completed.</p>
           <ul>
             <li><b>Status:</b> ${currentBuild.currentResult}</li>
             <li><b>Google Drive Folder:</b> <a href="${env.BUILD_FOLDER_LINK}">Open CypressReports/Build_${env.BUILD_NUMBER}</a></li>
