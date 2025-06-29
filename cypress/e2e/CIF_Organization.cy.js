@@ -21,7 +21,7 @@ describe('This suit is for CIF Organization', () => {
             fileName: 'CIF_Data.xlsx',
             sheetName: 'Sheet1'
         }).then((dataLogin) => {
-            Cypress.env('excelData', dataLogin[0]); // Use first row
+            Cypress.env('excelData', dataLogin[3]); // Use first row
             loginPage.Login();
         });
 
@@ -51,7 +51,7 @@ describe('This suit is for CIF Organization', () => {
             fileName: 'CIF_Data.xlsx',
             sheetName: 'Sheet1'
         }).then((dataLogin) => {
-            Cypress.env('excelData', dataLogin[1]); // Use second row
+            Cypress.env('excelData', dataLogin[4]); // Use second row
             loginPage.Login();
         });
 
