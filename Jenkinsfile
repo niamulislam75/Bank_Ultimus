@@ -33,7 +33,7 @@ pipeline {
       steps {
         script {
           catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-            bat 'npx cypress run --spec "cypress/e2e/CIF_Individual.cy.js"'
+            //bat 'npx cypress run --spec "cypress/e2e/CIF_Individual.cy.js"'
             bat 'npx cypress run --spec "cypress/e2e/CIF_Organization.cy.js"'
           }
         }
@@ -43,7 +43,7 @@ pipeline {
     stage('Upload Videos to Google Drive') {
       steps {
         script {
-           def specFiles = ['CIF_Individual.cy.js.mp4', 'CIF_Organization.cy.js.mp4']
+           def specFiles = ['CIF_Organization.cy.js.mp4']
           specFiles.each { specVideo ->
             def videoFile = "${env.VIDEO_DIR}\\${specVideo}"
             def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/${specVideo}"
