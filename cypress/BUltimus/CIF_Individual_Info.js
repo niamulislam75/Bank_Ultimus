@@ -1,6 +1,6 @@
 
 class CIFInfo {
-//const cifInfo = new CIFInfo();
+
   cifInfo() {
 
     const dataCIFInfo = Cypress.env('excelData');   //define object
@@ -37,8 +37,8 @@ class CIFInfo {
     //   cy.get('#ctl00_contPlcHdrMasterHolder_LsddlIssueCountry').select(dataCIFInfo.PassPortIssCountry);
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlPlaceOfBirthOfCustomer').select(dataCIFInfo.PlaceOfBirth);
-    
-   
+
+
     //Basic Info Ends
 
     cy.get('#ctl00_contPlcHdrMasterHolder_TabCIFPersonalInfo').click();  //Go to Personal Details Tab
@@ -55,7 +55,7 @@ class CIFInfo {
 
     // cy.intercept('POST', '**/MenuEnable').as('menuEnable');
     // cy.intercept('POST', '**/CreateMenu').as('createMenu');
-    
+
     // cy.get('#ctl00_contPlcHdrMasterHolder_LstxtMonthlyIncome').type(dataCIFInfo.MonthlyIncome);
 
     // cy.wait('@menuEnable');
@@ -153,7 +153,7 @@ class CIFInfo {
     });
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNatureofBusinessandSourceofFound').type('test of CIF Individual Cypress');
-    
+
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtSourceOfFundDescription_indi').focus();
     cy.wait(2000);
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtSourceOfFundDescription_indi').type('test of CIF Individual Cypress');
@@ -178,7 +178,7 @@ class CIFInfo {
     cy.wait('@formReload1');
     cy.wait('@formReload2');       //intercept Post Request call
     //cy.wait(5000);
-//
+    //
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk2').should('not.be.disabled');
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlRelationshipRisk2').select('No', '{force: true}');
