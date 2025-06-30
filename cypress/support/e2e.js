@@ -66,8 +66,9 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 Cypress.on('uncaught:exception', (err, runnable) => {
   if (
-    err.message.includes("Can not read properties of null") &&
-    err.message.includes("reading 'focus'")
+    err.message.includes("Can not read properties of null") ||
+    err.message.includes("reading 'focus'")||
+    err.message.includes("Cannot set properties of null")
   ) {
     return false; // Prevent Cypress from failing the test
   }

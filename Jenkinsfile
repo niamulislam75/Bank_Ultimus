@@ -34,6 +34,7 @@ pipeline {
         script {
           catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
             bat 'npx cypress run --spec "cypress/e2e/BU.cy.js"'
+            //bat 'node runInOrder.js'
           }
         }
       }
