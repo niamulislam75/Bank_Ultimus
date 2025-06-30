@@ -11,7 +11,7 @@ pipeline {
     REMOTE_FOLDER = 'gdrive:/BUltimus/'  
     BUILD_FOLDER = "Build_${BUILD_NUMBER}"
     VIDEO_DIR = "${env.WORKSPACE}\\cypress\\videos"
-    EMAIL_TO = 'avisheak.mitra@leads-bd.com, momtajul.karim@leads-bd.com'
+    EMAIL_TO = 'avisheak.mitra@leads-bd.com'
     EMAIL_FROM = 'missiononemtwo@gmail.com'
   }
 
