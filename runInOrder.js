@@ -1,13 +1,13 @@
 const cypress = require('cypress');
 
 (async () => {
-  console.log('Running DDAccOpen.cy.js...');
+  console.log('Running DemandDeposit.cy.js...');
   await cypress.run({
-    spec: 'cypress/e2e/DDAccOpen.cy.js'
+    spec: 'cypress/e2e/Deposit/DemandDeposit.cy.js'
   });
 
-  console.log('Running DDTrfTrans.cy.js...');
+ console.log('Running SchemeDeposit.cy.js...');
   await cypress.run({
-    spec: 'cypress/e2e/DDTrfTrans.cy.js'
+    spec: 'cypress/e2e/Deposit/SchemeDeposit.cy.js'
   });
 })();
