@@ -1,19 +1,18 @@
 const { readExcelData } = require('../support/readExcel.js'); // Node-style import
 import LoginPage from '../BankUltimus/Common/LoginPage'; // ES Module import
-import MenuSearch from '../BankUltimus/Common/MenuSearch'; // ES Module import
-import FinancialProposalRegister from '../BankUltimus/Finance/Lon_FinancialProposalRegisterPage'; // ES Module import 
+import MenuSearch from '../BankUltimus/Common/MenuSearchPage'; // ES Module import
+import DefineCreditLine from '../BankUltimus/Finance/Lon_DefineCreditLinePage'; // ES Module import 
 import LogoutPage from '../BankUltimus/Common/LogoutPage'; // ES Module import
-import NFTAuthorize from '../BankUltimus/Common/NFTAuthorizeQueuePage2'; // ES Module import
+import NFTAuthorize from '../BankUltimus/Common/NFTAuthorizeQueuePage'; // ES Module import
 
 describe('Bank Ultimus', () => {
-    it('Step 1: Financial Proposal Register', function () {
+    it('Step 1: Scheme Deposit Account Open', function () {
         const loginPage = new LoginPage();
         const menuSearch = new MenuSearch();
-        const financialProposal = new FinancialProposalRegister();
-        const logoutPage = new LogoutPage(); 
-
-
-        // //Login with valid Maker User ID
+        const defineCLine = new DefineCreditLine();
+        const logoutPage = new LogoutPage();
+        const nftAuthorize = new NFTAuthorize();
+        //Login with valid Maker User ID
         cy.task('readExcel', {
             fileName: 'loginData3.xlsx',
             sheetName: 'Login'
@@ -22,31 +21,25 @@ describe('Bank Ultimus', () => {
             loginPage.Login();
         });
 
-        // Go to Financial proposal Page (FP: 3111)
+        // Go to DDAccOpen Page (FP: 2001)
         cy.task('readExcel', {
             fileName: 'loginData3.xlsx',
             sheetName: 'MenuSearch'
         }).then((dataMenuSearch) => {
-            Cypress.env('excelData', dataMenuSearch[10]); // Use first row
+            Cypress.env('excelData', dataMenuSearch[9]); // Use first row
             menuSearch.menu();
         });
-        // Fill up all information at 3111
+        // Fill up all information at 2001
         cy.task('readExcel', {
             fileName: 'loginData3.xlsx',
-            sheetName: 'FinProposalRegister'
-        }).then((dataFinancialProposal) => {
-            Cypress.env('excelData', dataFinancialProposal[0]); // Use first row
-            financialProposal.FinancialProposalRegister();
+            sheetName: 'DefineCreditLine'
+        }).then((dataDefineCLine) => {
+            Cypress.env('excelData', dataDefineCLine[0]); // Use first row
+            defineCLine.DefineCreditLine();
         });
 
         logoutPage.Logout();//logout maker user   
-         
 
-    });
-it('Step 1: Financial Proposal Register Auth', function () {
-        const loginPage = new LoginPage();
-        const menuSearch = new MenuSearch();
-        const nftAuthorize = new NFTAuthorize();
         //Login with valid Maker User ID
         cy.task('readExcel', {
             fileName: 'loginData3.xlsx',
@@ -63,15 +56,17 @@ it('Step 1: Financial Proposal Register Auth', function () {
             Cypress.env('excelData', dataMenuSearch[1]); // Use 2nd row
             menuSearch.menu();
         });
-       // Authoriza Page (FP: 8002)
+        // Authoriza Page (FP: 8002)
         cy.task('readExcel', {
             fileName: 'loginData3.xlsx',
             sheetName: 'NftAuth'
         }).then((dataNftAuth) => {
-            Cypress.env('excelData', dataNftAuth[3]); // Use first row
+            Cypress.env('excelData', dataNftAuth[2]); // Use first row
             nftAuthorize.NftAuth();
         });
 
     });
+
+
 
 })

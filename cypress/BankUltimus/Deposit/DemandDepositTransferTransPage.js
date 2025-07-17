@@ -2,34 +2,33 @@ class DemandDepositTrfTrans {
 
     DDtrfTrans() {
 
-
         const dataDDtrfTrans = Cypress.env('excelData');
         cy.intercept('POST', '/BankUltimus/src/BankUltimus.UI/BU_Trans/CorTrfTransDDUI.aspx?FUNCTION_ID=0125008&FAST_PATH=7031').as('formReload');
-
-
 
         //------use this block for dynamically use acc no. 
         cy.then(() => {
             const accountNumber = Cypress.env('accountNumber');
             cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccNo')
                 .clear() // Optional: clear input first
-                .type(accountNumber + '{enter}');
+                .type(accountNumber).type('{enter}');
 
-        }); 
+        });
 
-        
-       // cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccNo')
+
+        // cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccNo')
         // cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccNo').clear().type(dataDDtrfTrans.AccNo + '{enter}');
 
         //cy.wait(3000);
-         
+
         // cy.get('#ctl00_contPlcHdrMasterHolder_LsddlDrCr').focus().select(dataDDtrfTrans.DrCr).blur();
         // cy.wait('@formReload');       //intercept Post Request call
         // cy.get('#ctl00_contPlcHdrMasterHolder_LsddlDrCr').focus().select(dataDDtrfTrans.DrCr);
-       
+
         cy.wait(3000);
         cy.get('#ctl00_contPlcHdrMasterHolder_LstxTransAmtCcy').clear();
-        cy.get('#ctl00_contPlcHdrMasterHolder_LstxTransAmtCcy').type(dataDDtrfTrans.amount);
+        cy.get('#ctl00_contPlcHdrMasterHolder_LstxTransAmtCcy').type(dataDDtrfTrans.amount).type('{enter}');
+        // console.log('Amount entered: ', dataDDtrfTrans.amount);
+        // Cypress.env('transAmount', dataDDtrfTrans.amount); // Store amount in Cypress.env for later use
 
         //  cy.wait(3000);
         // cy.get('#ctl00_contPlcHdrMasterHolder_LstxTransAmtCcy').clear();
@@ -38,12 +37,10 @@ class DemandDepositTrfTrans {
 
         cy.wait(3000);
         cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNarration').clear();
-        cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNarration').type(dataDDtrfTrans.narration);
+        cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNarration').type(dataDDtrfTrans.narration).type('{enter}');
 
         cy.wait(3000);
         cy.get('#ctl00_contPlcHdrMasterHolder_btnOk').click();
-
-
 
         cy.get('#ui-dialog-title-dialog', { timeout: 10000 })  // adjust selector if needed
             .should('be.visible');
@@ -63,11 +60,22 @@ class DemandDepositTrfTrans {
                 Cypress.env('batchNo', batchNo);
                 cy.log(`✅ Batch No: ${batchNo}`);
             });
-
-
-
         cy.wait(3000);
         cy.get('.ui-button-text').click();
+
+        // cy.get('#ctl00_contPlcHdrMasterHolder_LstxTransAmtCcy') // Adjust the selector if needed
+        //     .invoke('val')
+        //     .then((value) => {
+        //         if (value) {
+        //             Cypress.env('transAmount', value); // Store in Cypress environment
+        //             cy.log('Stored amount:', value);
+
+        //         } else {
+        //             cy.log('Amount field is empty');
+        //         }
+        //     });
+
+
 
     }
 }

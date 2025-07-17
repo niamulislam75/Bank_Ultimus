@@ -5,10 +5,10 @@ class DemandDepositAccOpen {
     const dataDDAccOpen = Cypress.env('excelData');
     cy.intercept('POST', '/BankUltimus/src/BankUltimus.UI/BU_Deposit/DepositDemandACUI.aspx?FUNCTION_ID=0201001&FAST_PATH=2001').as('formReload');
 
-    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccNoPrdId').type(dataDDAccOpen.prod_ID);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccNoPrdId').type(dataDDAccOpen.prod_ID).type('{enter}');
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCustId').clear();
-    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCustId').focus().type(dataDDAccOpen.cus_ID);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtCustId').focus().type(dataDDAccOpen.cus_ID).type('{enter}');
     cy.wait(3000);
 
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccOpeningPrp').clear();
@@ -30,9 +30,9 @@ class DemandDepositAccOpen {
 
 
 
-    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNoTrans').type(dataDDAccOpen.noOf_trans);
-    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtTransAmt').type(dataDDAccOpen.trans_max_size);
-    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtTotalValue').type(dataDDAccOpen.total_value);
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtNoTrans').type(dataDDAccOpen.noOf_trans).type('{enter}');
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtTransAmt').type(dataDDAccOpen.trans_max_size).type('{enter}');
+    cy.get('#ctl00_contPlcHdrMasterHolder_LstxtTotalValue').type(dataDDAccOpen.total_value).type('{enter}');
     cy.wait(3000);
     cy.get('#ctl00_contPlcHdrMasterHolder_BtnKYCAdd').click();
 
@@ -54,7 +54,7 @@ class DemandDepositAccOpen {
     cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccOpeningPrp').invoke('val').then((text) => {
       if (!text) {
         // If empty, type the purpose and click OK
-        cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccOpeningPrp').type(dataDDAccOpen.purpose);
+        cy.get('#ctl00_contPlcHdrMasterHolder_LstxtAccOpeningPrp').type(dataDDAccOpen.purpose).type('{enter}');
 
         cy.get('#ctl00_contPlcHdrMasterHolder_btnOk').click();
       } else {
@@ -75,20 +75,15 @@ class DemandDepositAccOpen {
       .then((popupText) => {
         // Debug print
         cy.log('Popup Text: ' + popupText);
-
         const match = popupText.match(/Account Number\s*:\s*(\d+)/);
-
         if (!match) {
           throw new Error("❌ Account Number not found in popup text.");
         }
-
         const accountNumber = match[1];
         expect(accountNumber).to.not.be.null;
-
         Cypress.env('accountNumber', accountNumber);
         cy.log('✅ Extracted Account Number: ' + accountNumber);
       }); 
-
     cy.wait(3000);
     cy.get('.ui-button-text').click();
 

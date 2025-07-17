@@ -1,6 +1,6 @@
 const { readExcelData } = require('../support/readExcel.js'); // Node-style import
 import LoginPage from '../BankUltimus/Common/LoginPage'; // ES Module import
-import MenuSearch from '../BankUltimus/Common/MenuSearch'; // ES Module import
+import MenuSearch from '../BankUltimus/Common/MenuSearchPage'; // ES Module import
 import DDCashTrans from '../BankUltimus/Deposit/DemandDepositCashTransPage'; // ES Module import
 
 

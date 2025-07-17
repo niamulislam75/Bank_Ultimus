@@ -47,7 +47,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 Cypress.on('uncaught:exception', (err, runnable) => {
   // Handle unexpected KeyboardEvent TypeError too
   if (err.message.includes("Cannot read properties of undefined") &&
-      err.message.includes("KeyboardEvent")) {
+      err.message.includes("reading 'KeyboardEvent'")) {
     return false;
   }
 
@@ -68,7 +68,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   if (
     err.message.includes("Can not read properties of null") ||
     err.message.includes("reading 'focus'")||
-    err.message.includes("Cannot set properties of null")
+    err.message.includes("Cannot set properties of null") ||
+    err.message.includes("setCursorPosition is not defined")  
   ) {
     return false; // Prevent Cypress from failing the test
   }

@@ -3,20 +3,37 @@ class NFTAuthorizeQueuePage {
   NftAuth() {
 
     const dataNftAuth = Cypress.env('excelData');
-    cy.intercept('POST', 'http://192.168.20.127/BankUltimus/src/BankUltimus.UI/NftAuthorizeQueueUI.aspx?FUNCTION_ID=0127002&FAST_PATH=8002').as('formReload');
+    //cy.intercept('POST', 'http://192.168.20.127/BankUltimus/src/BankUltimus.UI/NftAuthorizeQueueUI.aspx?FUNCTION_ID=0127002&FAST_PATH=8002').as('formReload');
 
     //cy.get('#ctl00_contPlcHdrMasterHolder_LsddlAuthFunction').click();
     // cy.wait(3000); 
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlAuthFunction').select(dataNftAuth.auth_func).blur();
-    cy.wait('@formReload');       //intercept Post Request call
+    //cy.wait('@formReload');       //intercept Post Request call
     cy.get('#ctl00_contPlcHdrMasterHolder_LsddlAuthFunction').focus().select(dataNftAuth.auth_func, { force: true });
 
+
+    cy.get('#ctl00_contPlcHdrMasterHolder_btnAuthSearch').focus().click({ force: true }); //search Auth Function
     cy.wait(3000);
-    cy.get('#ctl00_contPlcHdrMasterHolder_btnAuthSearch').click(); //search Auth Function
+    //cy.wait('@formReload');
+    // cy.get('#ctl00_contPlcHdrMasterHolder_btnAuthSearch', { timeout: 10000 }).should('not.be.disabled').click({ force: true });
+
+    // cy.get('#ctl00_contPlcHdrMasterHolder_btnAuthSearch', { timeout: 10000 })
+    //   .should('exist')
+    //   .and('be.visible')
+    //   .then($el => {
+    //     cy.log('Button found:', $el.text());
+    //   })
+    //   .focus().click({ force: true });
+    // cy.get('#ctl00_contPlcHdrMasterHolder_btnAuthSearch')
+    //   .should('exist')
+    //   .and('be.visible')  
+    //   .should('not.be.disabled')
+    //   .dblclick({ force: true });
 
 
     cy.then(() => {
       const accountNumber = Cypress.env('accountNumber');
+      //const accountNumber = Cypress.env('6699316000011');
       const creditLineId = Cypress.env('creditLineId');
       const proposalId = Cypress.env('proposalId');
 
@@ -51,20 +68,20 @@ class NFTAuthorizeQueuePage {
           }
         });
 
-      // }else if (proposalId) {
-      //   cy.log('🔍 Searching by proposal ID: ' + proposalId);
+      } else if (proposalId) {
+        cy.log('🔍 Searching by proposal ID: ' + proposalId);
 
-      //   cy.get('table tbody tr').each(($row) => {
-      //     const text = $row.find('td').eq(2).text();
-      //     if (text.includes(`ID:${proposalId}`)) {
-      //       cy.wrap($row).within(() => {
-      //         cy.contains('Authorize/Decline').click();
-      //       });
-      //       return false; // stop further iteration
-      //     }
-      //   });
+        cy.get('table tbody tr').each(($row) => {
+          const text = $row.find('td').eq(2).text();
+          if (text.includes(`ID:${proposalId}`)) {
+            cy.wrap($row).within(() => {
+              cy.contains('Authorize/Decline').click();
+            });
+            return false; // stop further iteration
+          }
+        });
 
-      }else {
+      } else {
         throw new Error("❌ No identifier (accountNumber or savedCreditLineId) found in Cypress.env()");
       }
     });

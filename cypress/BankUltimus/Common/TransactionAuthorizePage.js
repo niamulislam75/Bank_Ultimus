@@ -2,17 +2,31 @@ class TransactionAuthorizationPage {
 
     TransAuth() {
 
-        const dataTransAuth = Cypress.env('excelData');
+        //const dataTransAuth = Cypress.env('excelData');
         cy.intercept('POST', '/BankUltimus/src/BankUltimus.UI/BU_Trans/CorTransAuthorizationUI.aspx?FUNCTION_ID=0127001&FAST_PATH=8001').as('formReload');
 
         //Select Transaction Mode-Transfer
-        cy.get('#ctl00_contPlcHdrMasterHolder_LsddlTransMode').select(dataTransAuth.trans_mode).blur();
+        cy.get('#ctl00_contPlcHdrMasterHolder_LsddlTransMode').select('Transfer').blur();
         cy.wait('@formReload');       //intercept Post Request call
-        cy.get('#ctl00_contPlcHdrMasterHolder_LsddlTransMode').focus().select(dataTransAuth.trans_mode, { force: true });
+        cy.get('#ctl00_contPlcHdrMasterHolder_LsddlTransMode').focus().select('Transfer', { force: true });
 
-        cy.wait(3000);
+        // cy.get('#ctl00_contPlcHdrMasterHolder_LsddlTransMode')
+        //     .invoke('val')
+        //     .then((text) => {
+        //         if (text === 'Cash') {
+        //             cy.get('#ctl00_contPlcHdrMasterHolder_LsddlTransMode').select('Transfer').blur();
+        //             cy.wait('@formReload');       //intercept Post Request call
+        //             cy.get('#ctl00_contPlcHdrMasterHolder_LsddlTransMode').focus().select('Transfer', { force: true });
+
+        //         } 
+        //     });
+        // cy.get('#ctl00_contPlcHdrMasterHolder_LsddlTransMode').select(dataTransAuth.trans_mode).blur();
+        // cy.wait('@formReload');       //intercept Post Request call
+        // cy.get('#ctl00_contPlcHdrMasterHolder_LsddlTransMode').focus().select(dataTransAuth.trans_mode, { force: true });
+
+        //cy.wait(3000);
         cy.get('#ctl00_contPlcHdrMasterHolder_btnFind').click(); //Click on Find btn for search Transaction
-
+        cy.wait(3000);
         cy.get('#ctl00_contPlcHdrMasterHolder_gvUTQ > tbody > tr') // Select all rows
             .each(($row) => {
                 const batchNoToSelect = Cypress.env('batchNo');
