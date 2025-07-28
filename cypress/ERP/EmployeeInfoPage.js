@@ -13,7 +13,8 @@ class EmployeeInfoPage {
         .click();
     cy.origin('http://192.168.10.36:4300', () => {
 
-      //cy.get("span[class='ng-tns-c321347134-2']").click();
+      //cy.get("span[class='ng-tns-c321347134-2']").click();      
+      cy.log('Clicking on Employee Info Page');
       
       cy.get('.mat-mdc-tooltip-trigger.fuse-vertical-navigation-item.ng-tns-c321347134-5').click();
 
