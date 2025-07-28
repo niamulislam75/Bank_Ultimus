@@ -1,9 +1,9 @@
-const { readExcelData } = require('../support/readExcel.js'); // Node-style import
-import LoginPage from '../BankUltimus/Common/LoginPage'; // ES Module import
-import MenuSearch from '../BankUltimus/Common/MenuSearchPage'; // ES Module import
-import DefineCreditLine from '../BankUltimus/Finance/Lon_DefineCreditLinePage'; // ES Module import 
-import LogoutPage from '../BankUltimus/Common/LogoutPage'; // ES Module import
-import NFTAuthorize from '../BankUltimus/Common/NFTAuthorizeQueuePage'; // ES Module import
+const { readExcelData } = require('../../support/readExcel.js'); // Node-style import
+import LoginPage from '../../BankUltimus/Common/LoginPage'; // ES Module import
+import MenuSearch from '../../BankUltimus/Common/MenuSearchPage'; // ES Module import
+import DefineCreditLine from '../../BankUltimus/Finance/Lon_DefineCreditLinePage'; // ES Module import 
+import LogoutPage from '../../BankUltimus/Common/LogoutPage'; // ES Module import
+import NFTAuthorize from '../../BankUltimus/Common/NFTAuthorizeQueuePage'; // ES Module import
 
 describe('Bank Ultimus', () => {
     it('Step 1: Scheme Deposit Account Open', function () {

@@ -1,13 +1,41 @@
 const { readExcelData } = require('../../support/readExcel.js'); // Node-style import
 import ERPLoginPage from '../../ERP/ERPLoginPage'; // ES Module import
 //import EmployeeDetails from '../../ERP/EmployeeDetailsPage'; // ES Module import
-import EmployeeInfoDetails from '../../ERP/EmployeeInfoDetailsPage'; // ES Module import
+import EmployeeInfo from '../../ERP/EmployeeInfoPage'; // ES Module import
+import OrganizationDetails from '../../ERP/OrganizationDetailsPage'; // ES Module import
+import AddtionalInfo from '../../ERP/AddtionalInfoPage'; // ES Module import
+import EducationalInfo from '../../ERP/EducationalInfoPage'; // ES Module import
+import JobExperience from '../../ERP/JobExperiencePage'; // ES Module import
+import Training from '../../ERP/TrainingPage'; // ES Module import   
+import Spouse from '../../ERP/SpousePage'; // ES Module import 
+import Children from '../../ERP/ChildrenPage'; // ES Module import
+import Nominee from '../../ERP/NomineePage'; // ES Module import
+import PhotoAndSignature from '../../ERP/PhotoAndSignaturePage'; // ES Module import
+import Relatives from '../../ERP/RelativesPage'; // ES Module import
+import Reference from '../../ERP/ReferencePage'; // ES Module import
+import Proficiency from '../../ERP/ProficiencyPage'; // ES Module import
+import Attachment from '../../ERP/AttachmentPage';
+import EmployeeList from '../../ERP/EmployeeListPage';
+
 
 describe('Bank Ultimus', () => {
     it('Step 1: Employee Details', function () {
         const erplogin = new ERPLoginPage();
-        const employeeDetails = new EmployeeInfoDetails();
-        //const menuSearch = new MenuSearch2();
+        const employeeInfo = new EmployeeInfo();
+        const organizationDetails = new OrganizationDetails();
+        const addtionalInfo = new AddtionalInfo();
+        const educationalInfo = new EducationalInfo();
+        const jobExperience = new JobExperience();
+        const training = new Training();
+        const spouse = new Spouse();
+        const children = new Children();
+        const nominee = new Nominee();
+        const photoAndSignature = new PhotoAndSignature();
+        const relatives = new Relatives();
+        const reference = new Reference();
+        const proficiency = new Proficiency();
+        const attachment = new Attachment();
+
 
         //Login with valid Maker User ID
         cy.task('readExcel', {
@@ -18,50 +46,27 @@ describe('Bank Ultimus', () => {
             erplogin.erpLogin();
         });
 
-        //Go to NFTAuthQueue Page (FP: 8002)
-        // cy.task('readExcel', {
-        //     fileName: 'loginData3.xlsx',
-        //     sheetName: 'EmployeeDetails'
-        // }).then((dataMenuSearch) => {
-        //     Cypress.env('excelData', dataMenuSearch[0]); // Use 2nd row
-        //     menuSearch.menu2();
-        // });
-         employeeDetails.EmployeeInfoDetails();
-        // //Fill up all information at 3111
-        // cy.task('readExcel', {
-        //     fileName: 'loginData3.xlsx',
-        //     sheetName: 'EmployeeDetails'
-        // }).then((dataEmployeeDetails) => {
-        //     Cypress.env('excelData', dataEmployeeDetails[0]); // Use first row
-        //     employeeDetails.EmployeeDetails();
-        // });
 
-        // logoutPage.Logout();//logout maker user   
+        employeeInfo.EmployeeInfo();
+        organizationDetails.OrganizationDetails();
+        addtionalInfo.AddtionalInfo();
+        educationalInfo.EducationalInfo();
+        jobExperience.JobExperience();
+        training.Training();
+        spouse.Spouse();
+        children.Children();
+        nominee.Nominee();
+        //photoAndSignature.Nominee(); // Navigate to Photo & Signature Page
+        photoAndSignature.PhotoAndSignature(); // Upload Photo & Signature
+        relatives.Relatives(); // Navigate to Relatives Page
+        reference.Reference(); // Navigate to Reference Page
+        proficiency.Proficiency(); // Navigate to Proficiency Page
+        attachment.Attachment(); // Navigate to Attachment Page
 
-        // //Login with valid Maker User ID
-        // cy.task('readExcel', {
-        //     fileName: 'loginData3.xlsx',
-        //     sheetName: 'Login'
-        // }).then((dataLogin) => {
-        //     Cypress.env('excelData', dataLogin[1]); // Use first row
-        //     loginPage.Login();
-        // });
-        // //Go to NFTAuthQueue Page (FP: 8002)
-        // cy.task('readExcel', {
-        //     fileName: 'loginData3.xlsx',
-        //     sheetName: 'MenuSearch'
-        // }).then((dataMenuSearch) => {
-        //     Cypress.env('excelData', dataMenuSearch[1]); // Use 2nd row
-        //     menuSearch.menu();
-        // });
-        // // Authoriza Page (FP: 8002)
-        // cy.task('readExcel', {
-        //     fileName: 'loginData3.xlsx',
-        //     sheetName: 'NftAuth'
-        // }).then((dataNftAuth) => {
-        //     Cypress.env('excelData', dataNftAuth[2]); // Use first row
-        //     nftAuthorize.NftAuth();
-        // });
+
+
+
+
 
     });
 

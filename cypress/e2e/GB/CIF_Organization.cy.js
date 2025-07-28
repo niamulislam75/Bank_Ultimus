@@ -1,9 +1,9 @@
-import LoginPage from '../BUltimus/LogIn.js'; // ES Module import
-import GoToFastPath from '../BUltimus/GoToFastPath.js';
-import CIFOrgInfo from '../BUltimus/CIF_Organization_Info.js';
-import DoLogOut from '../BUltimus/LogOut.js';
-import AuthorizeCustomer from '../BUltimus/AuthorizeCustomer.js';
-import CustomerInquiry from '../BUltimus/CustomerInquiry.js';
+import LoginPage from '../../BUltimus/LogIn.js'; // ES Module import
+import GoToFastPath from '../../BUltimus/GoToFastPath.js';
+import CIFOrgInfo from '../../BUltimus/CIF_Organization_Info.js';
+import DoLogOut from '../../BUltimus/LogOut.js';
+import AuthorizeCustomer from '../../BUltimus/AuthorizeCustomer.js';
+import CustomerInquiry from '../../BUltimus/CustomerInquiry.js';
 
 describe('This suit is for CIF Organization', () => {
 

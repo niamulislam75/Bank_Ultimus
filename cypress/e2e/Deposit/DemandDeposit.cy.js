@@ -6,7 +6,9 @@ import LogoutPage from '../../BankUltimus/Common/LogoutPage'; // ES Module impor
 import NFTAuthorize from '../../BankUltimus/Common/NFTAuthorizeQueuePage'; // ES Module import
 import DDTrfTrans from '../../BankUltimus/Deposit/DemandDepositTransferTransPage'; // ES Module import
 import TransAuth from '../../BankUltimus/Common/TransactionAuthorizePage'; // ES Module import
-import AccInquary from '../../BankUltimus/Common/DepositAccountBalanceInquaryPage'; // ES Module import 
+import AccInquary from '../../BankUltimus/Common/DepositAccountBalanceInquaryPage'; // ES Module import
+import DepositAccNominee from '../../BankUltimus/Common/DepositAccNomineePage'; // ES Module import
+import DepositAccBeneficiary from '../../BankUltimus/Common/DepositAccBeneficiaryPage'; // ES Module import
 describe('Bank Ultimus', () => {
 
   it('Step 1: Demand Deposit Account Open', function () {
@@ -36,18 +38,20 @@ describe('Bank Ultimus', () => {
     cy.task('readExcel', {
       fileName: 'loginData3.xlsx',
       sheetName: 'DDAccOpen'
+
     }).then((dataDDAccOpen) => {
       Cypress.env('excelData', dataDDAccOpen[0]); // Use first row
       ddAccOpen.DDAccOpen();
     });
     logoutPage.Logout();//logout maker user   
   });
-  it('Step 2: Demand Deposit Account Authorize & Transaction', function () {
+  it('Step 2: Demand Deposit Account Authorize & Add Nominee', function () {
     const loginPage = new LoginPage();
     const menuSearch = new MenuSearch();
     const nftAuthorize = new NFTAuthorize();
-    const ddtrfTrans = new DDTrfTrans();
+    //const ddtrfTrans = new DDTrfTrans();
     const logoutPage = new LogoutPage();
+    const accNominee = new DepositAccNominee();
 
     //Login with valid Checker User ID
     cy.task('readExcel', {
@@ -73,7 +77,109 @@ describe('Bank Ultimus', () => {
       Cypress.env('excelData', dataNftAuth[0]); // Use first row
       nftAuthorize.NftAuth();
     });
-     //Go to DDTrfTransaction Page (FP: 7031)
+    //=========Nominee Information===========
+    //Go to DepositAccNominee Page (FP: 2004)
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'MenuSearch'
+    }).then((dataMenuSearch) => {
+      Cypress.env('excelData', dataMenuSearch[15]); // Use first row
+      menuSearch.menu();
+    });
+    // Add Nominee For DD(FP: 2004)
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'AccNominee'
+    }).then((dataddtrfTrans) => {
+      Cypress.env('excelData', dataddtrfTrans[0]); // Use first row
+      accNominee.nominee();
+    });
+    logoutPage.Logout();//logout maker user
+
+  });
+  it('Step 3: Nominee Authorize & Add Beneficiary', function () {
+    const loginPage = new LoginPage();
+    const menuSearch = new MenuSearch();
+    const nftAuthorize = new NFTAuthorize();
+    const logoutPage = new LogoutPage();
+    const accBeneficiary = new DepositAccBeneficiary();
+
+    //Login with valid Checker User ID
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'Login'
+    }).then((dataLogin) => {
+      Cypress.env('excelData', dataLogin[0]); // Use first row
+      loginPage.Login();
+    });
+    //Go to NFTAuthQueue Page (FP: 8002)
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'MenuSearch'
+    }).then((dataMenuSearch) => {
+      Cypress.env('excelData', dataMenuSearch[1]); // Use 2nd row
+      menuSearch.menu();
+    });
+    // Authoriza Nominee (FP: 8002)
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'NftAuth'
+    }).then((dataNftAuth) => {
+      Cypress.env('excelData', dataNftAuth[5]); // Use first row
+      nftAuthorize.NftAuth();
+    });
+    //=========Beneficiary Information===========
+    //Go to DepositAccBeneficiary Page (FP: 2005)
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'MenuSearch'
+    }).then((dataMenuSearch) => {
+      Cypress.env('excelData', dataMenuSearch[18]); // Use first row
+      menuSearch.menu();
+    });
+    // Add Nominee For DD(FP: 2004)
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'DepoAccBeneficiary'
+    }).then((dataBeneficiary) => {
+      Cypress.env('excelData', dataBeneficiary[0]); // Use first row
+      accBeneficiary.beneficiary();
+    });
+    logoutPage.Logout();//logout maker user
+  });
+  it('Step 4: Beneficiary Authorize & Transaction', function () {
+    const loginPage = new LoginPage();
+    const menuSearch = new MenuSearch();
+    const nftAuthorize = new NFTAuthorize();
+    const ddtrfTrans = new DDTrfTrans();
+    const logoutPage = new LogoutPage();
+
+    //Login with valid Checker User ID
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'Login'
+    }).then((dataLogin) => {
+      Cypress.env('excelData', dataLogin[1]); // Use first row
+      loginPage.Login();
+    });
+    //Go to NFTAuthQueue Page (FP: 8002)
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'MenuSearch'
+    }).then((dataMenuSearch) => {
+      Cypress.env('excelData', dataMenuSearch[1]); // Use 2nd row
+      menuSearch.menu();
+    });
+    // Authoriza Beneficiary (FP: 8002)
+    cy.task('readExcel', {
+      fileName: 'loginData3.xlsx',
+      sheetName: 'NftAuth'
+    }).then((dataNftAuth) => {
+      Cypress.env('excelData', dataNftAuth[7]); // Use first row
+      nftAuthorize.NftAuth();
+    });
+
+    //Go to DDTrfTransaction Page (FP: 7031)
     cy.task('readExcel', {
       fileName: 'loginData3.xlsx',
       sheetName: 'MenuSearch'
@@ -90,10 +196,10 @@ describe('Bank Ultimus', () => {
       Cypress.env('excelData', dataddtrfTrans[0]); // Use first row
       ddtrfTrans.DDtrfTrans();
     });
-    logoutPage.Logout();//logout maker user
 
-  });  
-  it('Step 3: Transaction Authorization & Balance Inquary', function () {
+    logoutPage.Logout();//logout maker user 
+  });
+  it('Step 5: Transaction Authorization & Balance Inquary', function () {
     const loginPage = new LoginPage();
     const menuSearch = new MenuSearch();
     const transAuth = new TransAuth();
