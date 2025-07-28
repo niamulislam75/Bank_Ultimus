@@ -11,14 +11,14 @@ pipeline {
     REMOTE_FOLDER = 'gdrive:/BUltimus/'  
     BUILD_FOLDER = "Build_${BUILD_NUMBER}"
     VIDEO_DIR = "${env.WORKSPACE}\\cypress\\videos"
-    EMAIL_TO = 'avisheak.mitra@leads-bd.com'
+    EMAIL_TO = 'niamul.islam@leads-bd.com'
     EMAIL_FROM = 'missiononemtwo@gmail.com'
   }
 
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/avisheak/BankUltimus_Automation.git'
+        git branch: 'main', url: 'https://github.com/niamulislam75/Bank_Ultimus.git'
       }
     }
 
@@ -34,9 +34,6 @@ pipeline {
         script {
           catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
             bat 'npx cypress run --spec "cypress/e2e/CenterPoint/ERP.cy.js"'
-            //bat 'npx cypress run --spec "cypress/e2e/BU.cy.js"'
-             // Run your custom Cypress runner script
-              //bat 'node runInOrder.js'
           }
         }
       }
@@ -45,18 +42,13 @@ pipeline {
     stage('Upload Videos to Google Drive') {
       steps {
         script {
-           def specFiles = ['CIF_Organization.cy.js.mp4']
+           def specFiles = ['ERP.cy.js.mp4']
           specFiles.each { specVideo ->
             def videoFile = "${env.VIDEO_DIR}\\${specVideo}"
             def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/${specVideo}"
             bat "dir \"${env.VIDEO_DIR}\""
             bat "\"${env.RCLONE_PATH}\" copyto \"${videoFile}\" \"${remoteFile}\""
             }
-          // def videoFile = "${env.VIDEO_DIR}\\CIF_Organization.cy.js.mp4"
-          // def remoteFile = "${env.REMOTE_FOLDER}${env.BUILD_FOLDER}/videos/CIF_Organization.cy.js.mp4"
-          // // Optional: list files to verify existence before upload
-          // bat "dir \"${env.VIDEO_DIR}\""
-          // bat "\"${env.RCLONE_PATH}\" copyto \"${videoFile}\" \"${remoteFile}\""
         }
       }
     }
@@ -81,13 +73,13 @@ pipeline {
         subject: "✅ Cypress Report - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
         body: """
           <p>Hello,</p>
-          <p>The Cypress test <b>CIF_Organization.cy.js</b> has completed.</p>
+          <p>The Cypress test <b>ERP.cy.js</b> has completed.</p>
           <ul>
             <li><b>Status:</b> ${currentBuild.currentResult}</li>
             <li><b>Google Drive Folder:</b> <a href="${env.BUILD_FOLDER_LINK}">Open CypressReports/Build_${env.BUILD_NUMBER}</a></li>
             <li><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
           </ul>
-          <p>Regards,<br>Md Shafique</p>
+          <p>Regards,<br>Md Niamul Islam</p>
         """,
         to: "${env.EMAIL_TO}",
         from: "${env.EMAIL_FROM}",
