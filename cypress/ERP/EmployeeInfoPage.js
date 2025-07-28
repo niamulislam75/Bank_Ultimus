@@ -31,7 +31,7 @@ class EmployeeInfoPage {
       cy.get('common-input-field[controlname="employeeId"] input')
         .should('be.visible')
         .clear()
-        .type('EMP084');
+        .type('EMP085');
 
       cy.get('common-input-field[controlname="employeeNameEn"] input')
         .should('be.visible')
